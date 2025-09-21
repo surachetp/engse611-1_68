@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise: Nested Objects</title>
+</head>
+<body>
+    <h1>สร้างนักศึกษาซับซ้อน (Nested Object)</h1>
+    
+    <div>
+        <h3>ข้อมูลนักศึกษา</h3>
+        <input type="text" id="studentName" placeholder="ชื่อ" value="สุรเชษฐ์">
+        <input type="number" id="studentAge" placeholder="อายุ" value="36">
+        <input type="text" id="studentMajor" placeholder="สาขา" value="วิศวกรรมคอมพิวเตอร์">
+        <input type="number" id="studentGPA" placeholder="GPA" value="3.50" step="0.01" min="0" max="4">
+        <h4>ข้อมูลผู้ปกครอง</h4>
+        <input type="text" id="fatherName" placeholder="ชื่อพ่อ" value="ประเสริฐ์>
+        <input type="text" id="fatherPhone" placeholder="เบอร์พ่อ" value="0812345678">
+        <input type="text" id="motherName" placeholder="ชื่อแม่" value="นงลักษณ์">
+        <input type="text" id="motherPhone" placeholder="เบอร์แม่" value="0898765432">
+        <br><br>
+        <button onclick="createComplexStudent()">สร้างนักศึกษา</button>
+        <button onclick="showAllComplexStudents()">แสดงนักศึกษาทั้งหมด</button>
+    </div>
+
+    <div id="complexResult"></div>
+
+    <script>
+        let allComplexStudents = [];
+
+        function createComplexStudent() {
+            // ดึงค่าจาก input
+            const name = document.getElementById('studentName').value;
+            const age = parseInt(document.getElementById('studentAge').value);
+            const major = document.getElementById('studentMajor').value;
+            const gpa = parseFloat(document.getElementById('studentGPA').value);
+            const fatherName = document.getElementById('fatherName').value;
+            const fatherPhone = document.getElementById('fatherPhone').value;
+            const motherName = document.getElementById('motherName').value;
+            const motherPhone = document.getElementById('motherPhone').value;
+
+            // สร้าง Object ซับซ้อน
+            const newStudent = {
+                name: name,
+                age: age,
+                major: major,
+                gpa: gpa,
+                subjects: [
+                    { name: "วิชาพื้นฐาน", grade: "B+" }
+                ],
+                address: {
+                    province: "ไม่ระบุ",
+                    district: "ไม่ระบุ",
+                    zipcode: "00000",
+                    coordinates: { lat: 0, long: 0 } // Object ซ้อน Object
+                },
+                guardian: {
+                    father: { name: fatherName, phone: fatherPhone },
+                    mother: { name: motherName, phone: motherPhone }
+                },
+                getFullInfo: function() {
+                    return `${this.name}, อายุ ${this.age} ปี, สาขา ${this.major}, GPA ${this.gpa}`;
+                },
+                getSubjectsInfo: function() {
+                    return this.subjects.map(s => `${s.name} (${s.grade})`).join(", ");
+                },
+                addSubject: function(subjectName, grade) {
+                    this.subjects.push({ name: subjectName, grade: grade });
+                }
+            };
+
+            allComplexStudents.push(newStudent);
+
+            // แสดงผล
+            let result = `
+                <h3>สร้างนักศึกษาใหม่เรียบร้อย!</h3>
+                <div style="background:#f0f8ff; padding:15px; border-radius:8px; margin:10px 0;">
+                    <h4>${newStudent.name}</h4>
+                    <p><strong>ข้อมูลเต็ม:</strong> ${newStudent.getFullInfo()}</p>
+                    <p><strong>วิชา:</strong> ${newStudent.getSubjectsInfo()}</p>
+                    <p><strong>พ่อ:</strong> ${newStudent.guardian.father.name} (${newStudent.guardian.father.phone})</p>
+                    <p><strong>แม่:</strong> ${newStudent.guardian.mother.name} (${newStudent.guardian.mother.phone})</p>
+                </div>
+            `;
+            document.getElementById('complexResult').innerHTML = result;
+
+            console.log("สร้างนักศึกษาใหม่:", newStudent);
+        }
+
+        function showAllComplexStudents() {
+            let result = `<h3>นักศึกษาทั้งหมด (${allComplexStudents.length} คน):</h3>`;
+            allComplexStudents.forEach((s, index) => {
+                result += `
+                    <div style="background:#f9f9f9; padding:10px; margin:5px 0; border-radius:5px;">
+                        <strong>${index+1}. ${s.getFullInfo()}</strong><br>
+                        วิชา: ${s.getSubjectsInfo()}<br>
+                        พ่อ: ${s.guardian.father.name} (${s.guardian.father.phone})<br>
+                        แม่: ${s.guardian.mother.name} (${s.guardian.mother.phone})<br>
+                        ที่อยู่: ${s.address.district}, ${s.address.province}
+                    </div>
+                `;
+            });
+            document.getElementById('complexResult').innerHTML = result;
+        }
+    </script>
+</body>
+</html>
