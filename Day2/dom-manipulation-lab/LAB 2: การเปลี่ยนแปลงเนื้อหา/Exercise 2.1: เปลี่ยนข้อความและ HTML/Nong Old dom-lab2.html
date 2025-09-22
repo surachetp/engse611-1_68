@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LAB 2: Dynamic & Animated DOM</title>
+<style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f0f2f5; }
+    h1 { color: #333; }
+    .demo-section { background: #fff; padding: 20px; margin: 15px 0; border-radius: 10px; box-shadow: 0 3px 8px rgba(0,0,0,0.1); }
+    .demo-btn { background: #2196F3; color: white; padding: 8px 15px; 
+                border: none; border-radius: 5px; margin: 3px; cursor: pointer; transition: 0.3s; }
+    .demo-btn:hover { background: #1976D2; }
+    .input-group { margin: 10px 0; }
+    .input-group input, .input-group select { padding: 8px; margin: 5px; border: 1px solid #ddd; border-radius: 5px; }
+    #dynamic-content { border: 2px dashed #666; padding: 15px; min-height: 100px; background: #fafafa; transition: all 0.3s ease; }
+    /* Card Animation */
+    .card { opacity: 0; transform: translateY(20px); transition: all 0.5s ease; border-radius: 10px; padding: 15px; text-align: center; color: #fff; }
+    .card.show { opacity: 1; transform: translateY(0); }
+    /* Table animation */
+    table { width: 100%; border-collapse: collapse; }
+    table tr { transition: all 0.3s ease; }
+    table tr:hover { background: #f1f7ff; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+    ul li { margin: 5px 0; transition: transform 0.3s ease, color 0.3s ease; }
+    ul li:hover { color: #2196F3; transform: translateX(5px); }
+</style>
+</head>
+<body>
+
+<h1>🎯 LAB 2: Dynamic & Animated DOM</h1>
+
+<div class="demo-section">
+    <h3>📝 textContent vs innerHTML</h3>
+    <div id="content-demo">เนื้อหาเริ่มต้น</div><br>
+    <button class="demo-btn" onclick="changeTextContent()">textContent</button>
+    <button class="demo-btn" onclick="changeInnerHTML()">innerHTML</button>
+    <button class="demo-btn" onclick="showDifference()">ดูความแตกต่าง</button>
+    <button class="demo-btn" onclick="resetContent()">รีเซ็ต</button>
+</div>
+
+<div class="demo-section">
+    <h3>🎮 การเปลี่ยนแปลงแบบ Interactive</h3>
+    <div class="input-group">
+        <input type="text" id="nameInput" placeholder="ใส่ชื่อของคุณ" value="Surachetp">
+        <input type="number" id="ageInput" placeholder="อายุ" value="36" min="1" max="100">
+        <input type="text" id="hobbyInput" placeholder="งานอดิเรก" value="ตกปลา">
+    </div>
+    <button class="demo-btn" onclick="updateProfile()">อัพเดทโปรไฟล์</button>
+    <button class="demo-btn" onclick="generateCard()">สร้างการ์ด</button>
+    <div id="profile-display" style="margin-top: 15px; padding: 15px; background: #f0f8ff; border-radius: 8px;">
+        โปรไฟล์จะแสดงที่นี่
+    </div>
+</div>
+
+<div class="demo-section">
+    <h3>🏗️ สร้างเนื้อหาแบบ Dynamic</h3>
+    <div class="input-group">
+        <select id="contentType">
+            <option value="list">รายการ (List)</option>
+            <option value="table">ตาราง (Table)</option>
+            <option value="cards">การ์ด (Cards)</option>
+            <option value="form">ฟอร์ม (Form)</option>
+        </select>
+        <input type="number" id="itemCount" placeholder="จำนวน" value="3" min="1" max="10">
+        <button class="demo-btn" onclick="generateContent()">สร้างเนื้อหา</button>
+        <button class="demo-btn" onclick="clearContent()">ล้างเนื้อหา</button>
+    </div>
+    <div id="dynamic-content">เนื้อหาที่สร้างจะแสดงที่นี่</div>
+</div>
+
+<script>
+    // textContent vs innerHTML
+    function changeTextContent() {
+        let el = document.getElementById('content-demo');
+        el.textContent = 'ข้อความที่เปลี่ยนด้วย textContent - <strong>HTML จะไม่ทำงาน</strong>';
+    }
+    function changeInnerHTML() {
+        let el = document.getElementById('content-demo');
+        el.innerHTML = 'ข้อความที่เปลี่ยนด้วย innerHTML - <strong>HTML จะทำงาน</strong>';
+    }
+    function showDifference() {
+        let el = document.getElementById('content-demo');
+        el.innerHTML = `
+            <div style="background: #ffffcc; padding: 10px; border-radius: 5px;">
+                <h4>ความแตกต่าง:</h4>
+                <ul>
+                    <li><strong>textContent:</strong> ใส่ข้อความล้วนๆ</li>
+                    <li><strong>innerHTML:</strong> ใส่ HTML ได้</li>
+                    <li>textContent ปลอดภัยกว่า (ป้องกัน XSS)</li>
+                </ul>
+            </div>`;
+    }
+    function resetContent() { document.getElementById('content-demo').textContent = 'เนื้อหาเริ่มต้น'; }
+
+    // Interactive Profile
+    function updateProfile() {
+        let name = document.getElementById('nameInput').value;
+        let age = document.getElementById('ageInput').value;
+        let hobby = document.getElementById('hobbyInput').value;
+        let div = document.getElementById('profile-display');
+        div.innerHTML = `
+            <h4>โปรไฟล์ของคุณ:</h4>
+            <p><strong>ชื่อ:</strong> ${name}</p>
+            <p><strong>อายุ:</strong> ${age} ปี</p>
+            <p><strong>งานอดิเรก:</strong> ${hobby}</p>
+            <p><strong>อัพเดทเมื่อ:</strong> ${new Date().toLocaleString('th-TH')}</p>`;
+    }
+
+    function generateCard() {
+        let name = document.getElementById('nameInput').value;
+        let age = document.getElementById('ageInput').value;
+        let hobby = document.getElementById('hobbyInput').value;
+        let div = document.getElementById('profile-display');
+        div.innerHTML = `
+            <div class="card show" style="background: linear-gradient(135deg,#667eea,#764ba2)">
+                <h3>${name}</h3>
+                <p>อายุ ${age} ปี</p>
+                <p>💡 ${hobby}</p>
+                <small>รหัส: ${Math.floor(Math.random()*1000000).toString().padStart(6,'0')}</small>
+            </div>`;
+    }
+
+    // Dynamic content with animation
+    function generateContent() {
+        let type = document.getElementById('contentType').value;
+        let count = parseInt(document.getElementById('itemCount').value);
+        let container = document.getElementById('dynamic-content');
+        container.innerHTML = '';
+        if(type==='list') {
+            let ul = document.createElement('ul');
+            for(let i=1;i<=count;i++){
+                let li = document.createElement('li');
+                li.textContent = `รายการที่ ${i} - สิ่งของ`;
+                li.style.transition = 'transform 0.3s, color 0.3s';
+                ul.appendChild(li);
+            }
+            container.appendChild(ul);
+        } else if(type==='table') {
+            let table = document.createElement('table');
+            let tr = document.createElement('tr');
+            tr.innerHTML = '<th>ลำดับ</th><th>ชื่อ</th><th>คะแนน</th>';
+            table.appendChild(tr);
+            for(let i=1;i<=count;i++){
+                let row = document.createElement('tr');
+                let score = Math.floor(Math.random()*40)+60;
+                row.innerHTML = `<td>${i}</td><td>นักศึกษา ${i}</td><td>${score}</td>`;
+                table.appendChild(row);
+            }
+            container.appendChild(table);
+        } else if(type==='cards') {
+            let grid = document.createElement('div');
+            grid.style.display='grid';
+            grid.style.gridTemplateColumns='repeat(auto-fit,minmax(200px,1fr))';
+            grid.style.gap='15px';
+            let colors = ['#FF6B6B','#4ECDC4','#45B7D1','#96CEB4','#FFEAA7'];
+            for(let i=1;i<=count;i++){
+                let card = document.createElement('div');
+                card.className='card';
+                card.style.background = colors[i%colors.length];
+                card.innerHTML = `<h4>นักศึกษา ${i}</h4><p>รหัส: 650${i.toString().padStart(3,'0')}</p><p>GPA: ${(Math.random()*2+2).toFixed(2)}</p>`;
+                grid.appendChild(card);
+                setTimeout(()=>card.classList.add('show'),50*i);
+            }
+            container.appendChild(grid);
+        } else if(type==='form'){
+            let formDiv = document.createElement('div');
+            formDiv.style.background='#fff'; formDiv.style.padding='15px'; formDiv.style.borderRadius='8px';
+            for(let i=1;i<=count;i++){
+                let wrapper = document.createElement('div'); wrapper.style.margin='10px 0';
+                wrapper.innerHTML = `<label>ฟิลด์ ${i}:</label><input type="text" placeholder="ใส่ข้อมูลฟิลด์ ${i}" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;">`;
+                formDiv.appendChild(wrapper);
+            }
+            let btn = document.createElement('button');
+            btn.textContent='ส่งข้อมูล'; btn.style.cssText='background:#4CAF50;color:white;padding:10px 20px;border:none;border-radius:4px;margin-top:10px;';
+            formDiv.appendChild(btn);
+            container.appendChild(formDiv);
+        }
+    }
+
+    function clearContent(){ document.getElementById('dynamic-content').innerHTML='เนื้อหาที่สร้างจะแสดงที่นี่'; }
+
+    updateProfile();
+</script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercise 3: Functions</title>
+    <style>
+      body {
+        font-family: "Tahoma", sans-serif;
+        background: linear-gradient(120deg, #e0f7fa, #f1f8e9);
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #00695c;
+        margin-bottom: 30px;
+      }
+
+      h2 {
+        color: #004d40;
+        margin-top: 0;
+      }
+
+      input, button {
+        margin: 5px;
+        padding: 8px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        background-color: #009688;
+        color: white;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #00796b;
+      }
+
+      .result-box {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 10px;
+        background: #ffffff;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+      }
+
+      /* สีเกรด */
+      .grade-A { color: #00cc44; font-weight: bold; }
+      .grade-B { color: #0099ff; font-weight: bold; }
+      .grade-C { color: #ffcc00; font-weight: bold; }
+      .grade-D { color: #ff8800; font-weight: bold; }
+      .grade-F { color: #ff0000; font-weight: bold; }
+
+      /* สี BMI */
+      .bmi-underweight { color: #0099ff; font-weight: bold; }
+      .bmi-normal { color: #00cc44; font-weight: bold; }
+      .bmi-overweight { color: #ffcc00; font-weight: bold; }
+      .bmi-obese1 { color: #ff8800; font-weight: bold; }
+      .bmi-obese2 { color: #ff0000; font-weight: bold; }
+    </style>
+  </head>
+
+  <body>
+    <h1>JavaScript Functions</h1>
+
+    <div>
+      <input type="text" id="studentName" placeholder="ชื่อนักศึกษา" value="สุรเชษฐ์ เป็งคำ"/>
+      <input type="number" id="score" placeholder="คะแนน" value="85" min="0" max="100"/>
+      <br /><br />
+      <input type="number" id="weight" placeholder="น้ำหนัก (กก.)" value="85"/>
+      <input type="number" id="height" placeholder="ส่วนสูง (ซม.)" value="163"/>
+      <br /><br />
+      <button onclick="showGrade()">ดูผลการเรียน</button>
+      <button onclick="showBMI()">ดูผล BMI</button>
+    </div>
+
+    <!-- กล่องผลการเรียน -->
+    <div id="resultGrade" class="result-box">
+      <h2>📘 ผลการเรียน</h2>
+      <p>ยังไม่มีข้อมูล กรุณากด "ดูผลการเรียน"</p>
+    </div>
+
+    <!-- กล่องผล BMI -->
+    <div id="resultBMI" class="result-box">
+      <h2>⚖️ ผล BMI</h2>
+      <p>ยังไม่มีข้อมูล กรุณากด "ดูผล BMI"</p>
+    </div>
+
+    <script>
+      function greetStudent(name) {
+        return "สวัสดี " + name + "!";
+      }
+
+      function calculateGrade(score) {
+        if (score >= 80) return { grade: "A", cssClass: "grade-A" };
+        else if (score >= 70) return { grade: "B", cssClass: "grade-B" };
+        else if (score >= 60) return { grade: "C", cssClass: "grade-C" };
+        else if (score >= 50) return { grade: "D", cssClass: "grade-D" };
+        else return { grade: "F", cssClass: "grade-F" };
+      }
+
+      function calculateBMI(weight, height) {
+        let hInMeter = height / 100;
+        let bmi = weight / (hInMeter * hInMeter);
+
+        if (bmi < 18.5) return { bmi: bmi.toFixed(2), status: "ผอม", cssClass: "bmi-underweight" };
+        else if (bmi < 23) return { bmi: bmi.toFixed(2), status: "ปกติ", cssClass: "bmi-normal" };
+        else if (bmi < 25) return { bmi: bmi.toFixed(2), status: "ท้วม", cssClass: "bmi-overweight" };
+        else if (bmi < 30) return { bmi: bmi.toFixed(2), status: "อ้วนระดับ 1", cssClass: "bmi-obese1" };
+        else return { bmi: bmi.toFixed(2), status: "อ้วนระดับ 2", cssClass: "bmi-obese2" };
+      }
+
+      function showGrade() {
+        let name = document.getElementById("studentName").value;
+        let score = parseInt(document.getElementById("score").value);
+
+        let gradeResult = calculateGrade(score);
+
+        document.getElementById("resultGrade").innerHTML = `
+          <h2>📘 ผลการเรียน</h2>
+          <p>${greetStudent(name)}</p>
+          <p>คะแนน: ${score} → 
+            <span class="${gradeResult.cssClass}">เกรด ${gradeResult.grade}</span>
+          </p>
+        `;
+      }
+
+      function showBMI() {
+        let weight = parseFloat(document.getElementById("weight").value);
+        let height = parseFloat(document.getElementById("height").value);
+
+        let bmiResult = calculateBMI(weight, height);
+
+        document.getElementById("resultBMI").innerHTML = `
+          <h2>⚖️ ผล BMI</h2>
+          <p>น้ำหนัก: ${weight} กก. | ส่วนสูง: ${height} ซม.</p>
+          <p class="${bmiResult.cssClass}">
+            BMI: ${bmiResult.bmi} (${bmiResult.status})
+          </p>
+        `;
+      }
+    </script>
+  </body>
+</html>

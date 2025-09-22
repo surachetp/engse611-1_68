@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ระบบจัดการนักศึกษา (เพิ่มวันเกิด)</title>
+<style>
+    body { 
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        margin: 20px; 
+        background: #f0f8ff;
+        color: #333;
+    }
+    h1 { color: #2c3e50; text-align: center; }
+    form { background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    input, select, button { padding: 8px; margin: 5px 5px 5px 0; border-radius: 5px; border: 1px solid #ccc; outline: none; transition: 0.3s; }
+    input:focus, select:focus { border-color: #4CAF50; }
+    button { background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+    button:hover { background-color: #45a049; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+    th { background: linear-gradient(to right, #4CAF50, #81C784); color: white; }
+    tr:hover { background-color: #f1f1f1; }
+    .action-buttons button { background-color: #2196F3; margin-right: 5px; }
+    .action-buttons button:hover { background-color: #0b7dda; }
+    .delete-btn { background-color: #f44336; }
+    .delete-btn:hover { background-color: #da190b; }
+    .stats { margin-top: 20px; background: #fff; padding: 10px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    .contact-inputs input { width: 150px; margin-right: 5px; }
+</style>
+</head>
+<body>
+
+<h1>ระบบจัดการนักศึกษา 🎓</h1>
+
+<form id="studentForm">
+    <input type="hidden" id="studentId">
+    <input type="text" id="name" placeholder="ชื่อ" required>
+    <input type="date" id="dob" placeholder="วันเกิด" required>
+    <input type="number" step="0.01" id="grade" placeholder="เกรด" required>
+    <input type="text" id="address" placeholder="ที่อยู่">
+    <div class="contact-inputs">
+        <input type="text" id="facebook" placeholder="Facebook">
+        <input type="text" id="line" placeholder="Line">
+        <input type="text" id="instagram" placeholder="IG">
+        <input type="text" id="tel" placeholder="Tel">
+    </div>
+    <button type="submit">บันทึกนักศึกษา</button>
+</form>
+
+<h3>ค้นหา/กรอง/เรียงลำดับ</h3>
+<input type="text" id="searchName" placeholder="ค้นหาชื่อ">
+<input type="number" step="0.01" id="minGrade" placeholder="เกรดขั้นต่ำ">
+<select id="sortOption">
+    <option value="">-- เลือกการเรียงลำดับ --</option>
+    <option value="gradeAsc">เกรดน้อย → มาก</option>
+    <option value="gradeDesc">เกรดมาก → น้อย</option>
+    <option value="ageAsc">อายุน้อย → มาก</option>
+    <option value="ageDesc">อายุมาก → น้อย</option>
+</select>
+<button onclick="applyFilter()">กรอง/เรียง</button>
+<button onclick="clearFilter()">ล้างกรอง</button>
+
+<table id="studentTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>ชื่อ</th>
+            <th>วันเกิด</th>
+            <th>อายุ</th>
+            <th>เกรด</th>
+            <th>ที่อยู่</th>
+            <th>Facebook</th>
+            <th>Line</th>
+            <th>IG</th>
+            <th>Tel</th>
+            <th>จัดการ</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<div class="stats">
+    <h3>สถิติ 📊</h3>
+    <p>จำนวน: <span id="count">0</span></p>
+    <p>เกรดเฉลี่ย: <span id="average">0</span></p>
+    <p>เกรดสูงสุด: <span id="max">0</span></p>
+    <p>เกรดต่ำสุด: <span id="min">0</span></p>
+</div>
+
+<script>
+// ตัวอย่างข้อมูลนักศึกษา
+let students = [
+    { id: 1, name: "Surachet Pengcom", dob: "1989-08-06", grade: 3.5, address: "ลำพูน", facebook: "Noinong FreeSize", line: "noinong_f50", instagram: "Noinong FreeSize", tel: "0801172421" },
+    
+];
+
+// ฟังก์ชันคำนวณอายุ
+function calculateAge(dob) {
+    let birthDate = new Date(dob);
+    let today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    let m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
+    return age;
+}
+
+// เพิ่มหรือแก้ไขนักศึกษา
+function saveStudent(student) {
+    let idx = students.findIndex(s => s.id === student.id);
+    if (idx !== -1) students[idx] = student;
+    else students.push(student);
+    renderTable(students);
+}
+
+// ลบนักศึกษา
+function removeStudent(id) {
+    if (confirm("คุณต้องการลบนักศึกษาคนนี้หรือไม่?")) {
+        students = students.filter(s => s.id !== id);
+        renderTable(students);
+    }
+}
+
+// แก้ไขนักศึกษา
+function editStudent(id) {
+    let s = students.find(s => s.id === id);
+    if (s) {
+        document.getElementById("studentId").value = s.id;
+        document.getElementById("name").value = s.name;
+        document.getElementById("dob").value = s.dob;
+        document.getElementById("grade").value = s.grade;
+        document.getElementById("address").value = s.address;
+        document.getElementById("facebook").value = s.facebook;
+        document.getElementById("line").value = s.line;
+        document.getElementById("instagram").value = s.instagram;
+        document.getElementById("tel").value = s.tel;
+    }
+}
+
+// สถิติ
+function updateStats(list) {
+    let count = list.length;
+    let avg = count ? (list.reduce((sum, s) => sum + s.grade, 0)/count).toFixed(2) : 0;
+    let max = count ? Math.max(...list.map(s => s.grade)) : 0;
+    let min = count ? Math.min(...list.map(s => s.grade)) : 0;
+    document.getElementById("count").textContent = count;
+    document.getElementById("average").textContent = avg;
+    document.getElementById("max").textContent = max;
+    document.getElementById("min").textContent = min;
+}
+
+// แสดง Table
+function renderTable(list) {
+    let tbody = document.querySelector("#studentTable tbody");
+    tbody.innerHTML = "";
+    list.forEach(s => {
+        let age = calculateAge(s.dob);
+        let tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${s.id}</td>
+            <td>${s.name}</td>
+            <td>${s.dob}</td>
+            <td>${age}</td>
+            <td>${s.grade}</td>
+            <td>${s.address}</td>
+            <td>${s.facebook}</td>
+            <td>${s.line}</td>
+            <td>${s.instagram}</td>
+            <td>${s.tel}</td>
+            <td class="action-buttons">
+                <button onclick="editStudent(${s.id})">แก้ไข</button>
+                <button class="delete-btn" onclick="removeStudent(${s.id})">ลบ</button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+    updateStats(list);
+}
+
+// ค้นหา/กรอง/เรียงลำดับ
+function applyFilter() {
+    let name = document.getElementById("searchName").value.toLowerCase();
+    let minGrade = parseFloat(document.getElementById("minGrade").value);
+    let sortOption = document.getElementById("sortOption").value;
+
+    let filtered = students.filter(s => 
+        s.name.toLowerCase().includes(name) && 
+        (isNaN(minGrade) || s.grade >= minGrade)
+    );
+
+    if(sortOption === "gradeAsc") filtered.sort((a,b) => a.grade - b.grade);
+    if(sortOption === "gradeDesc") filtered.sort((a,b) => b.grade - a.grade);
+    if(sortOption === "ageAsc") filtered.sort((a,b) => calculateAge(a.dob) - calculateAge(b.dob));
+    if(sortOption === "ageDesc") filtered.sort((a,b) => calculateAge(b.dob) - calculateAge(a.dob));
+
+    renderTable(filtered);
+}
+
+function clearFilter() {
+    document.getElementById("searchName").value = "";
+    document.getElementById("minGrade").value = "";
+    document.getElementById("sortOption").value = "";
+    renderTable(students);
+}
+
+// บันทึกนักศึกษา
+document.getElementById("studentForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    let id = document.getElementById("studentId").value ? Number(document.getElementById("studentId").value) : 
+             (students.length ? Math.max(...students.map(s=>s.id)) + 1 : 1);
+    let student = {
+        id,
+        name: document.getElementById("name").value,
+        dob: document.getElementById("dob").value,
+        grade: Number(document.getElementById("grade").value),
+        address: document.getElementById("address").value,
+        facebook: document.getElementById("facebook").value,
+        line: document.getElementById("line").value,
+        instagram: document.getElementById("instagram").value,
+        tel: document.getElementById("tel").value
+    };
+    saveStudent(student);
+    this.reset();
+    document.getElementById("studentId").value = "";
+});
+
+// แสดงข้อมูลเริ่มต้น
+renderTable(students);
+</script>
+
+</body>
+</html>
