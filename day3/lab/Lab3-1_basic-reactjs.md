@@ -8,7 +8,7 @@
 ---
 
 ## Part 1: Follow Along (15 นาที)
-### ทำตามทีละขั้นตอน
+### ทำตามทีละขั้นตอน - ได้โครงสร้างพื้นฐาน 70%
 
 ### ขั้นตอนที่ 1: สร้างโปรเจค React ด้วย Vite
 ```bash
@@ -62,11 +62,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 ---
 
-### ขั้นตอนที่ 3: สร้างไฟล์ CSS สำหรับ styling
+### ขั้นตอนที่ 3: สร้างไฟล์ CSS พื้นฐาน
 **สร้างไฟล์:** `src/ProfileCard.css`
 
 ```css
-/* ProfileCard.css */
+/* ProfileCard.css - พื้นฐาน นักศึกษาจะปรับปรุงเพิ่มเติม */
 .profile-card {
   max-width: 500px;
   margin: 20px auto;
@@ -76,6 +76,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   font-family: 'Arial', sans-serif;
+  position: relative;
 }
 
 .profile-header {
@@ -166,6 +167,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   border-radius: 15px;
   font-size: 14px;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .hobby-item:hover {
@@ -230,11 +232,19 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* ส่วนที่นักศึกษาจะต้องเพิ่มเติม:
+- Theme toggle button styles
+- Social media links styles  
+- Achievement badges styles
+- Animation keyframes
+- Dark mode variant styles
+*/
 ```
 
 ---
 
-### ขั้นตอนที่ 4: สร้าง ProfileCard Component
+### ขั้นตอนที่ 4: สร้าง ProfileCard Component (โครงสร้างพื้นฐาน)
 **สร้างไฟล์:** `src/ProfileCard.jsx`
 
 ```jsx
@@ -260,6 +270,8 @@ function ProfileCard({ profile }) {
     const handleSkillClick = (skill) => {
         alert(`${profile.name} มีความเชี่ยวชาญใน ${skill}!`);
     };
+
+    // TODO: นักศึกษาจะเพิ่ม state และ functions เพิ่มเติมในส่วน Challenge
 
     return (
         <div className="profile-card">
@@ -323,6 +335,8 @@ function ProfileCard({ profile }) {
                 </div>
             </div>
 
+            {/* TODO: นักศึกษาจะเพิ่ม sections เพิ่มเติมใน Challenge */}
+
             {/* ปุ่ม Contact */}
             <button 
                 className="contact-button"
@@ -370,7 +384,8 @@ function App() {
             "Python",
             "Git",
             "Node.js"
-        ]
+        ],
+        // TODO: นักศึกษาจะเพิ่ม fields เพิ่มเติมใน Challenge
     };
 
     return (
@@ -402,7 +417,7 @@ export default App;
 
 ---
 
-### ขั้นตอนที่ 6: ทดสอบและรัน
+### ขั้นตอนที่ 6: ทดสอบพื้นฐาน
 ```bash
 # ตรวจสอบว่าทุกอย่างทำงานได้
 npm run dev
@@ -415,16 +430,23 @@ npm run dev
 4. ✅ คลิกปุ่ม Contact แสดงอีเมล
 5. ✅ Responsive design ใช้งานได้
 
+**✨ ขณะนี้เรามี ProfileCard พื้นฐานแล้ว! ต่อไปเป็นเวลาทำ Challenge!**
+
 ---
 
 ## Part 2: Challenge Time! (15 นาที)
-### งานที่ต้องทำให้เสร็จ
+### 🔥 งานที่นักศึกษาต้องทำเองให้สำเร็จ
 
-ตอนนี้เรามี ProfileCard component พื้นฐานแล้ว ให้นักศึกษาเพิ่มฟีเจอร์ต่อไปนี้:
+### 🎯 **Challenge 1: เพิ่มข้อมูลส่วนตัวและ Social Links (5 นาที)**
 
-### 🎯 **Challenge 1: เพิ่มข้อมูลส่วนตัว (5 นาที)**
+**สิ่งที่ต้องทำ:**
+1. **เปลี่ยนข้อมูลเป็นของตัวเอง** ในไฟล์ `App.jsx`
+2. **เพิ่ม field `socialLinks`** ในข้อมูล profile
+3. **แสดง Social Links** ใน ProfileCard component
 
-**ในไฟล์ `src/App.jsx` เพิ่ม:**
+**คำใบ้:**
+
+**ขั้นตอนที่ 1:** แก้ไข `src/App.jsx`
 ```jsx
 const myProfile = {
     name: "ชื่อจริงของคุณ",
@@ -439,53 +461,30 @@ const myProfile = {
     ],
     skills: [
         // เพิ่มทักษะของคุณ 4-6 อย่าง
+    ],
+    socialLinks: [
+        { platform: "GitHub", url: "https://github.com/yourusername" },
+        { platform: "LinkedIn", url: "https://linkedin.com/in/yourusername" },
+        { platform: "Instagram", url: "https://instagram.com/yourusername" },
+        // เพิ่มเติมตามต้องการ
     ]
 };
-
-// แล้วแสดง ProfileCard ทั้งสองแบบ
-return (
-    <div>
-        {/* แสดงตัวอย่าง */}
-        <ProfileCard profile={sampleProfile} />
-        
-        {/* แสดงของตัวเอง */}
-        <ProfileCard profile={myProfile} />
-    </div>
-);
 ```
 
----
-
-### 🎯 **Challenge 2: เพิ่ม Social Links (5 นาที)**
-
-**ในไฟล์ `src/ProfileCard.jsx` เพิ่ม:**
-
+**ขั้นตอนที่ 2:** เพิ่มใน `src/ProfileCard.jsx` หลัง skills section
 ```jsx
-// เพิ่มในส่วน profile data
-const socialLinks = profile.socialLinks || [];
-
-// เพิ่มใน JSX หลัง skills section
-{socialLinks.length > 0 && (
+{/* Social Links - นักศึกษาเพิ่มเอง */}
+{profile.socialLinks && profile.socialLinks.length > 0 && (
     <div className="profile-section">
         <h3>🌐 Social Media</h3>
         <div className="social-links">
-            {socialLinks.map((link, index) => (
-                <a 
-                    key={index}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="social-link"
-                >
-                    {link.platform}
-                </a>
-            ))}
+            {/* TODO: ใช้ .map() แสดงรายการ social links */}
         </div>
     </div>
 )}
 ```
 
-**เพิ่ม CSS ในไฟล์ `ProfileCard.css`:**
+**ขั้นตอนที่ 3:** เพิ่ม CSS ในไฟล์ `src/ProfileCard.css`
 ```css
 .social-links {
     display: flex;
@@ -494,35 +493,22 @@ const socialLinks = profile.socialLinks || [];
 }
 
 .social-link {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 14px;
-    transition: all 0.3s ease;
+    /* TODO: นักศึกษาเขียน styles เอง */
 }
-
-.social-link:hover {
-    background: rgba(255, 255, 255, 0.4);
-    transform: translateY(-2px);
-}
-```
-
-**เพิ่มข้อมูล social ใน App.jsx:**
-```jsx
-socialLinks: [
-    { platform: "GitHub", url: "https://github.com/yourusername" },
-    { platform: "LinkedIn", url: "https://linkedin.com/in/yourusername" },
-    { platform: "Facebook", url: "https://facebook.com/yourusername" }
-]
 ```
 
 ---
 
-### 🎯 **Challenge 3: เพิ่ม Animation และ Dark Mode Toggle (5 นาที)**
+### 🎯 **Challenge 2: เพิ่ม Theme Toggle และ Achievement Badges (5 นาที)**
 
-**เพิ่ม state และ function ใน ProfileCard.jsx:**
+**สิ่งที่ต้องทำ:**
+1. **เพิ่ม useState** สำหรับจัดการ dark/light mode
+2. **เพิ่มปุ่ม toggle** ใน header
+3. **เพิ่ม achievement badges** ตาม GPA และ skills
+
+**คำใบ้:**
+
+**ขั้นตอนที่ 1:** เพิ่ม import และ state ใน `ProfileCard.jsx`
 ```jsx
 import React, { useState } from 'react';
 
@@ -530,88 +516,201 @@ function ProfileCard({ profile }) {
     const [isDarkMode, setIsDarkMode] = useState(false);
     
     const toggleTheme = () => {
-        setIsDarkMode(!isDarkMode);
+        // TODO: นักศึกษาเขียนฟังก์ชัน toggle เอง
     };
     
-    // เพิ่ม className conditionally
-    const cardClassName = `profile-card ${isDarkMode ? 'dark-mode' : ''}`;
-    
-    return (
-        <div className={cardClassName}>
-            {/* เพิ่มปุ่ม toggle ในส่วน header */}
-            <div className="profile-header">
-                <button 
-                    className="theme-toggle"
-                    onClick={toggleTheme}
-                >
-                    {isDarkMode ? '☀️' : '🌙'}
-                </button>
-                {/* ... rest of header ... */}
-            </div>
-            {/* ... rest of component ... */}
-        </div>
-    );
-}
+    // TODO: เพิ่ม className conditionally
+    const cardClassName = `profile-card ${/* เงื่อนไข dark mode */}`;
 ```
 
-**เพิ่ม CSS สำหรับ dark mode:**
+**ขั้นตอนที่ 2:** เพิ่มปุ่ม toggle ใน header
+```jsx
+<div className="profile-header">
+    {/* TODO: เพิ่มปุ่ม theme toggle */}
+    <button 
+        className="theme-toggle"
+        onClick={toggleTheme}
+    >
+        {/* แสดง emoji ตาม mode */}
+    </button>
+    
+    <div className="profile-avatar">
+        {getInitials(profile.name)}
+    </div>
+    {/* ... rest of header ... */}
+</div>
+```
+
+**ขั้นตอนที่ 3:** เพิ่ม Achievement Badges
+```jsx
+{/* Achievement Badges - หลัง info section */}
+<div className="profile-section">
+    <h3>🏆 Achievements</h3>
+    <div className="achievements">
+        {/* TODO: เพิ่มเงื่อนไขแสดง badges */}
+        {profile.gpa >= 3.5 && (
+            <span className="achievement-badge">
+                🌟 เกียรตินิยม
+            </span>
+        )}
+        {profile.skills.length >= 5 && (
+            <span className="achievement-badge">
+                💪 Multi-skilled
+            </span>
+        )}
+        {/* เพิ่ม achievement เงื่อนไขอื่นๆ */}
+    </div>
+</div>
+```
+
+**ขั้นตอนที่ 4:** เพิ่ม CSS ที่จำเป็น
 ```css
 .theme-toggle {
     position: absolute;
     top: 15px;
     right: 15px;
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.theme-toggle:hover {
-    transform: scale(1.1);
-    background: rgba(255, 255, 255, 0.3);
+    /* TODO: นักศึกษาเขียน styles เอง */
 }
 
 .profile-card.dark-mode {
     background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    /* TODO: เพิ่ม styles สำหรับ dark mode */
 }
 
-/* เพิ่ม smooth transition */
-.profile-card {
-    transition: all 0.3s ease;
-    position: relative;
+.achievements {
+    /* TODO: เขียน layout สำหรับ achievement badges */
+}
+
+.achievement-badge {
+    /* TODO: เขียน styles สำหรับ badges */
 }
 ```
 
 ---
 
-## 🏆 **ผลลัพธ์ที่คาดหวัง:**
+### 🎯 **Challenge 3: เพิ่ม Interactive Features (5 นาที)**
 
-เมื่อเสร็จแล้วจะได้:
-1. ✅ ProfileCard แสดงข้อมูลส่วนตัวจริง
-2. ✅ Social media links ที่คลิกได้
-3. ✅ Dark/Light mode toggle
-4. ✅ Responsive design ใช้งานได้ดี
-5. ✅ Interactive elements มี hover effects
+**สิ่งที่ต้องทำ:**
+1. **เพิ่ม view count** ที่เพิ่มขึ้นเมื่อคลิกที่การ์ด
+2. **เพิ่ม favorite hobbies** ที่คลิกเพื่อ highlight ได้
+3. **เพิ่ม contact form** แทน alert
 
-## 🎓 **สิ่งที่เรียนรู้:**
-- **JSX syntax** - เขียน HTML ใน JavaScript
-- **Components** - สร้างชิ้นส่วน UI ที่นำกลับมาใช้ได้
-- **Props** - ส่งข้อมูลระหว่าง components
-- **Event Handling** - จัดการ onClick, hover
-- **Conditional Rendering** - แสดงเนื้อหาตามเงื่อนไข
-- **Map function** - วนลูปแสดงรายการ
-- **CSS-in-React** - จัดการ styles และ classes
-- **State (Preview)** - เก็บข้อมูลที่เปลี่ยนแปลงได้
+**คำใบ้:**
 
-## 🚀 **Next Steps:**
-พร้อมสำหรับหัวข้อถัดไป: **Components & Props** ที่จะเจาะลึกการส่งข้อมูลและสร้าง reusable components มากขึ้น!
+**ขั้นตอนที่ 1:** เพิ่ม states เพิ่มเติม
+```jsx
+const [viewCount, setViewCount] = useState(0);
+const [favoriteHobbies, setFavoriteHobbies] = useState([]);
+const [showContactForm, setShowContactForm] = useState(false);
+```
+
+**ขั้นตอนที่ 2:** เพิ่มฟังก์ชันต่างๆ
+```jsx
+const handleCardClick = () => {
+    // TODO: เพิ่ม view count
+};
+
+const toggleFavoriteHobby = (hobby) => {
+    // TODO: เพิ่ม/ลบ hobby จาก favorites
+};
+
+const handleContactClick = () => {
+    // TODO: แสดง contact form แทน alert
+};
+```
+
+**ขั้นตอนที่ 3:** แก้ไข JSX
+```jsx
+<div className={cardClassName} onClick={handleCardClick}>
+    {/* เพิ่ม view counter */}
+    <div className="view-counter">
+        👁️ Views: {viewCount}
+    </div>
+    
+    {/* แก้ไข hobbies list */}
+    <ul className="hobbies-list">
+        {profile.hobbies.map((hobby, index) => (
+            <li 
+                key={index} 
+                className={`hobby-item ${favoriteHobbies.includes(hobby) ? 'favorite' : ''}`}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    toggleFavoriteHobby(hobby);
+                }}
+            >
+                {hobby} {favoriteHobbies.includes(hobby) && '💖'}
+            </li>
+        ))}
+    </ul>
+    
+    {/* Contact Form */}
+    {showContactForm && (
+        <div className="contact-form">
+            {/* TODO: สร้าง simple form */}
+        </div>
+    )}
+</div>
+```
 
 ---
 
-**⏰ เวลาที่ใช้จริง: ~30 นาที**  
-**🎯 ความยาก: เหมาะสำหรับมือใหม่**  
-**💡 Tips: ถ้าติดปัญหา ลองดู console.log และ browser developer tools**
+## 🏆 **เกณฑ์การประเมินผล:**
+
+### **ระดับพื้นฐาน (70%):**
+- ✅ ทำ Challenge 1 สำเร็จ (เปลี่ยนข้อมูลส่วนตัว + Social Links)
+- ✅ แสดงข้อมูลครบถ้วนและถูกต้อง
+
+### **ระดับดี (80%):**  
+- ✅ Challenge 1 + 2 สำเร็จ
+- ✅ Theme toggle ทำงานได้
+- ✅ Achievement badges แสดงตามเงื่อนไข
+
+### **ระดับดีเยี่ยม (90-100%):**
+- ✅ ทำครบทั้ง 3 Challenges
+- ✅ Interactive features ทำงานได้ถูกต้อง
+- ✅ UI/UX สวยงาม มี animations
+- ✅ Code เขียนได้สะอาดและมี comments
+
+---
+
+## 🎓 **สิ่งที่นักศึกษาจะได้เรียนรู้:**
+
+### **จากการทำ Challenge:**
+- **useState Hook** - จัดการ state เบื้องต้น  
+- **Event Handling** - onClick, stopPropagation
+- **Conditional Rendering** - แสดงเนื้อหาตามเงื่อนไข
+- **Array Methods** - map, includes, filter
+- **CSS Classes** - จัดการ className แบบ dynamic
+- **Component Thinking** - แยกหน้าที่ของแต่ละส่วน
+
+### **Skills ที่ต้องใช้:**
+- **JavaScript ES6** - Destructuring, Arrow functions, Template literals
+- **React Concepts** - Components, Props, useState
+- **CSS Skills** - Flexbox, Grid, Transitions, Responsive design
+- **Problem Solving** - Debug และแก้ไขปัญหา
+
+### **การแบ่งเวลาที่แนะนำ:**
+- **Challenge 1:** 5 นาที (พื้นฐาน - ต้องทำได้ทุกคน)
+- **Challenge 2:** 5 นาที (ปานกลาง - ใช้ useState) 
+- **Challenge 3:** 5 นาที (ค่อนข้างยาก - สำหรับคนที่เก่ง)
+
+---
+
+## 🎯 **ผลลัพธ์ที่คาดหวัง:**
+
+เมื่อเสร็จแล้วจะได้ ProfileCard ที่:
+1. ✅ แสดงข้อมูลส่วนตัวจริง
+2. ✅ Social media links ที่คลิกได้
+3. ✅ Dark/Light mode toggle
+4. ✅ Achievement badges ตาม performance
+5. ✅ Interactive elements หลากหลาย
+6. ✅ Responsive design สำหรับมือถือ
+
+## 🚀 **Next Steps:**
+พร้อมสำหรับ **Lab 3.2: Components & Props** ที่จะเจาะลึกการส่งข้อมูลและสร้าง reusable components มากขึ้น!
+
+---
+
+**⏰ เวลาที่ใช้จริง: 15 นาที Follow + 15 นาที Challenge = 30 นาที**  
+**🎯 ความยาก: เหมาะสำหรับมือใหม่ + ท้าทายพอดี**  
+**💡 Tips: อย่าลืม console.log เพื่อ debug และใช้ React DevTools ดู state!**
