@@ -21,6 +21,7 @@
 - การจัดการ Lists และ Keys
 
 **📖 เอกสารประกอบ:** [components-props.md](components-props.md)
+**📄 Experiment:** [components-props-experiment.md](components-props-experiment.md)
 
 ### 3. **State Management เบื้องต้น** (2 ชั่วโมง)
 - useState Hook สำหรับจัดการ State
@@ -29,6 +30,7 @@
 - ข้อมูลที่เปลี่ยนแปลงได้ในแอปพลิเคชัน
 
 **📖 เอกสารประกอบ:** [state-management.md](state-management.md)
+**📄 Experiment:** [state-management-experiment.md](state-management-experiment.md)
 
 ---
 
