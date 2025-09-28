@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Methods Interactive - Cars</title>
+</head>
+<body>
+    <h1>ทดลอง Array Methods (Car Models)</h1>
+
+    <div>
+        <input type="text" id="newCar" placeholder="ใส่ชื่อรุ่นรถ">
+        <button onclick="addCar()">เพิ่มรุ่นรถ</button>
+        <button onclick="removeLastCar()">ลบรุ่นรถตัวสุดท้าย</button>
+        <button onclick="filterCars()">ค้นหา 'Nissan'</button>
+        <button onclick="calculateLength()">รวมความยาวรุ่นรถ</button>
+    </div>
+
+    <div id="result" style="margin-top:20px;"></div>
+
+    <script>
+        // สร้าง Array เริ่มต้น
+        let cars = ["Toyota Vios", "Toyota Vigo", "Nissan Juk", "Nissan Navara", "Honda Civic", "Mazda 2"];
+
+        // แสดงรายการรุ่นรถแบบเรียงสวย + ความยาว
+        function displayCars() {
+            if (cars.length === 0) return "<p>ไม่มีรุ่นรถในรายการ</p>";
+            let html = "<h3>รายชื่อรุ่นรถ:</h3><ol>";
+            cars.forEach(car => {
+                html += `<li>${car} (ความยาว: ${car.length} ตัวอักษร)</li>`;
+            });
+            html += "</ol>";
+            return html;
+        }
+
+        // อัพเดตผลลัพธ์ในหน้า
+        function updateDisplay(message = "") {
+            document.getElementById('result').innerHTML = displayCars() + message;
+        }
+
+        // push() เพิ่มรุ่นรถ
+        function addCar() {
+            const carName = document.getElementById('newCar').value.trim();
+            if (carName === "") {
+                alert("กรุณาใส่ชื่อรุ่นรถ");
+                return;
+            }
+            cars.push(carName);
+            document.getElementById('newCar').value = "";
+            updateDisplay(`<p style="color:green;">เพิ่ม: ${carName}</p>`);
+        }
+
+        // pop() ลบรุ่นรถตัวสุดท้าย
+        function removeLastCar() {
+            if (cars.length === 0) {
+                alert("ไม่มีรุ่นรถให้ลบ");
+                return;
+            }
+            const removed = cars.pop();
+            updateDisplay(`<p style="color:red;">ลบออก: ${removed}</p>`);
+        }
+
+        // filter() หาเฉพาะรุ่นรถที่มี ""
+        function filterCars() {
+            const filtered = cars.filter(car => car.toLowerCase().includes(""));
+            if (filtered.length === 0) {
+                updateDisplay("<p style='color:blue;'>ไม่มีรุ่นรถที่มี ''</p>");
+                return;
+            }
+            let html = "<h3>รุ่นรถที่มี 'Nissan':</h3><ol>";
+            filtered.forEach(car => {
+                html += `<li>${car} (ความยาว: ${car.length})</li>`;
+            });
+            html += "</ol>";
+            updateDisplay(html);
+        }
+
+        // reduce() รวมความยาวชื่อรุ่นรถทั้งหมด
+        function calculateLength() {
+            const totalLength = cars.reduce((sum, car) => sum + car.length, 0);
+            updateDisplay(`<p style="color:purple;">รวมความยาวของชื่อรุ่นรถทั้งหมด: ${totalLength} ตัวอักษร</p>`);
+        }
+
+        // แสดงผลเริ่มต้น
+        updateDisplay();
+    </script>
+</body>
+</html>
+
+
+
+สิ่งที่ต้องทำ:
+
+ทดสอบการเพิ่ม/ลบนักศึกษา
+ดูวิธีการค้นหาใน Array
+เรียนรู้ Array Methods: push(), pop(), filter(), reduce()
+ลองสร้าง Array ของตัวเองและทดสอบ
+💡 Array Methods ที่สำคัญ:
+
+push() - เพิ่มข้อมูลท้าย Array
+pop() - ลบข้อมูลท้าย Array
+filter() - กรองข้อมูลตามเงื่อนไข
+reduce() - รวมค่าใน Array
+join() - รวม Array เป็น String

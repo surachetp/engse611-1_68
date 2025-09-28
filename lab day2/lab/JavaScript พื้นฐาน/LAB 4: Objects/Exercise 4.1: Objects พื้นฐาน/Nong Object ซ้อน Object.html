@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สร้างนักศึกษาแบบสั้น</title>
+</head>
+<body>
+    <h1>สร้างนักศึกษาแบบสั้น</h1>
+
+    <div>
+        <input type="text" id="studentName" placeholder="ชื่อ" value="สุรเชษฐ์">
+        <input type="number" id="studentAge" placeholder="อายุ" value="36">
+        <input type="text" id="studentMajor" placeholder="สาขา" value="วิศวกรรมคอมพิวเตอร์">
+
+        <h4>ผู้ปกครอง</h4>
+        <input type="text" id="fatherName" placeholder="ชื่อพ่อ" value="ประเสริฐ์">
+        <input type="text" id="fatherPhone" placeholder="เบอร์พ่อ" value="0812345678">
+        <input type="text" id="motherName" placeholder="ชื่อแม่" value="นงลักษณ์">
+        <input type="text" id="motherPhone" placeholder="เบอร์แม่" value="0898765432">
+
+        <br><br>
+        <button onclick="createStudent()">สร้างนักศึกษา</button>
+        <button onclick="showAllStudents()">แสดงนักศึกษาทั้งหมด</button>
+    </div>
+
+    <div id="result"></div>
+
+    <script>
+        let allStudents = [];
+
+        function createStudent() {
+            const name = document.getElementById('studentName').value;
+            const age = parseInt(document.getElementById('studentAge').value);
+            const major = document.getElementById('studentMajor').value;
+            const fatherName = document.getElementById('fatherName').value;
+            const fatherPhone = document.getElementById('fatherPhone').value;
+            const motherName = document.getElementById('motherName').value;
+            const motherPhone = document.getElementById('motherPhone').value;
+
+            const student = {
+                name: name,
+                age: age,
+                major: major,
+                guardian: {
+                    father: { name: fatherName, phone: fatherPhone },
+                    mother: { name: motherName, phone: motherPhone }
+                },
+                getInfo: function() {
+                    return `${this.name}, อายุ ${this.age}, สาขา ${this.major}`;
+                }
+            };
+
+            allStudents.push(student);
+
+            document.getElementById('result').innerHTML = `
+                <h3>สร้างนักศึกษาใหม่เรียบร้อย!</h3>
+                <p>${student.getInfo()}</p>
+                <p>พ่อ: ${student.guardian.father.name} (${student.guardian.father.phone})</p>
+                <p>แม่: ${student.guardian.mother.name} (${student.guardian.mother.phone})</p>
+            `;
+
+            console.log("นักศึกษาใหม่:", student);
+        }
+
+        function showAllStudents() {
+            let html = `<h3>นักศึกษาทั้งหมด (${allStudents.length} คน)</h3>`;
+            allStudents.forEach((s, i) => {
+                html += `
+                    <p>${i+1}. ${s.getInfo()}<br>
+                    พ่อ: ${s.guardian.father.name} (${s.guardian.father.phone})<br>
+                    แม่: ${s.guardian.mother.name} (${s.guardian.mother.phone})</p>
+                `;
+            });
+            document.getElementById('result').innerHTML = html;
+        }
+    </script>
+</body>
+</html>

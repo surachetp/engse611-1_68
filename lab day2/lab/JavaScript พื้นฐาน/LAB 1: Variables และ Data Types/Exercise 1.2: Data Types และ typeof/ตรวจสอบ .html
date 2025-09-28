@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>No Bug: ตรวจสอบ Data Type</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: #f4faff;
+      color: #333;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #0077cc;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background: #0077cc;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+    .ok {
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>ตรวจสอบชนิดข้อมูล (ไม่มี bug)</h1>
+  <div id="output"></div>
+
+  <script>
+    // ✅ ฟังก์ชันตรวจสอบ type แบบไม่มี bug
+    function getType(value) {
+      if (value === null) return "null";        // ตรวจ null
+      if (Array.isArray(value)) return "array"; // ตรวจ array
+      return typeof value;                      // อื่น ๆ ใช้ typeof ได้
+    }
+
+    // ตัวอย่างข้อมูล
+    let values = {
+      text: "สวัสดี",             // string
+      number: 42,                 // number
+      decimal: 3.14,              // number
+      isActive: true,             // boolean
+      emptyValue: null,           // null
+      notDefined: undefined,      // undefined
+      studentData: { name: "สุรเช็ษฐ์", age: 36 }, // object
+      subjects: ["JS", "HTML", "CSS"] // array
+    };
+
+    // สร้างตารางแสดงผล
+    let output = document.getElementById("output");
+    let html = "<table>";
+    html += "<tr><th>ค่า</th><th>ชนิดข้อมูล (getType)</th></tr>";
+
+    for (let key in values) {
+      let val = values[key];
+      html += `
+        <tr>
+          <td><strong>${key}</strong>: ${JSON.stringify(val)}</td>
+          <td class="ok">${getType(val)}</td>
+        </tr>
+      `;
+    }
+
+    html += "</table>";
+    output.innerHTML = html;
+
+    // แสดงใน console ด้วย
+    console.log("=== ตรวจสอบชนิดข้อมูลแบบไม่มี bug ===");
+    for (let key in values) {
+      console.log(`${key}: ${getType(values[key])}`);
+    }
+  </script>
+</body>
+</html>

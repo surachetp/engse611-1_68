@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exercise 3: Functions</title>
+<style>
+    .input-group {
+        margin-bottom: 10px;
+    }
+    label {
+        display: inline-block;
+        width: 140px;
+    }
+    input {
+        padding: 5px;
+        width: 150px;
+    }
+    button {
+        margin-right: 10px;
+        padding: 5px 10px;
+    }
+
+    /* กรอบผลลัพธ์ทั้งหมด */
+    #result {
+        margin-top: 20px;
+        padding: 15px;
+        border: 2px solid #4facfe;
+        border-radius: 8px;
+        background-color: #e6f0ff;
+    }
+
+    /* กรอบผลลัพธ์ BMI */
+    #bmiResult {
+        margin-top: 20px;
+        padding: 15px;
+        border: 2px solid #00f2fe;
+        border-radius: 8px;
+        background-color: #ccfaff;
+        position: relative;
+    }
+
+    /* ไฮไลท์เกรด */
+    .grade-Aplus { color: red; font-weight: bold; }
+    .grade-A { color: green; font-weight: bold; }
+    .grade-B { color: blue; font-weight: bold; }
+    .grade-C { color: orange; font-weight: bold; }
+    .grade-D { color: purple; font-weight: bold; }
+    .grade-F { color: gray; font-weight: bold; }
+
+    /* แถบแสดง BMI */
+    .bmi-bar {
+        height: 20px;
+        border-radius: 10px;
+        background-color: #ddd;
+        margin-top: 5px;
+        overflow: hidden;
+    }
+    .bmi-fill {
+        height: 100%;
+        text-align: right;
+        padding-right: 5px;
+        color: white;
+        font-weight: bold;
+    }
+    .underweight { background-color: #00bfff; }
+    .normal { background-color: #28a745; }
+    .overweight { background-color: #ffc107; }
+    .obese { background-color: #dc3545; }
+</style>
+</head>
+<body>
+<h1>JavaScript Functions</h1>
+
+<div class="input-group">
+    <label for="studentName">ชื่อนักศึกษา:</label>
+    <input type="text" id="studentName" value="สมชาย">
+</div>
+
+<div class="input-group">
+    <label for="score">คะแนน:</label>
+    <input type="number" id="score" value="85" min="0" max="100">
+</div>
+
+<div class="input-group">
+    <label for="weight">น้ำหนัก (กก.):</label>
+    <input type="number" id="weight" value="70">
+</div>
+
+<div class="input-group">
+    <label for="height">ส่วนสูง (ซม.):</label>
+    <input type="number" id="height" value="170">
+</div>
+
+<div class="input-group">
+    <label for="Deductlatefee">Deductlatefee (บาท):</label>
+    <input type="number" id="Deductlatefee" value="3500">
+</div>
+
+<div class="input-group">
+    <label for="lottery">ค่าหวย (บาท):</label>
+    <input type="number" id="lottery" value="5000">
+</div>
+
+<div class="input-group">
+    <button onclick="testFunctions()">ทดสอบ Functions ทั้งหมด</button>
+    <button onclick="showBMI()">คำนวณ BMI</button>
+</div>
+
+<div id="result"></div>
+<div id="bmiResult"></div>
+
+<script>
+function greetStudent(name) {
+    return "สวัสดี " + name + "!";
+}
+
+function calculateGrade(score) {
+    if (score >= 95) return {grade:"A+", className:"grade-Aplus"};
+    else if (score >= 80) return {grade:"A", className:"grade-A"};
+    else if (score >= 70) return {grade:"B", className:"grade-B"};
+    else if (score >= 60) return {grade:"C", className:"grade-C"};
+    else if (score >= 50) return {grade:"D", className:"grade-D"};
+    else return {grade:"F", className:"grade-F"};
+}
+
+function calculateExpenses(tuition, dorm, food, transport, Deductlatefee, lottery) {
+    let total = tuition + dorm + food + transport + Deductlatefee + lottery;
+    return {
+        monthly: total,
+        yearly: total * 12,
+        breakdown: { tuition, dorm, food, transport, Deductlatefee, lottery }
+    };
+}
+
+function calculateBMI(weight, height) {
+    if (height <= 0) return { value: "-", category: "ส่วนสูงไม่ถูกต้อง", className:"" };
+    let heightMeter = height / 100;
+    let bmi = weight / (heightMeter ** 2);
+    let category, className;
+    if (bmi < 18.5) { category = "น้ำหนักน้อย / ผอม"; className="underweight"; }
+    else if (bmi < 25) { category = "น้ำหนักปกติ"; className="normal"; }
+    else if (bmi < 30) { category = "น้ำหนักเกิน"; className="overweight"; }
+    else { category = "โรคอ้วน"; className="obese"; }
+    return { value: bmi.toFixed(2), category: category, className: className };
+}
+
+function testFunctions() {
+    let name = document.getElementById('studentName').value;
+    let score = parseInt(document.getElementById('score').value);
+    let weight = parseFloat(document.getElementById('weight').value);
+    let height = parseFloat(document.getElementById('height').value);
+    let Deductlatefee = parseFloat(document.getElementById('Deductlatefee').value);
+    let lottery = parseFloat(document.getElementById('lottery').value);
+
+    let greeting = greetStudent(name);
+    let gradeObj = calculateGrade(score);
+    let expenses = calculateExpenses(15000, 3000, 6000, 1500, Deductlatefee, lottery);
+    let bmi = calculateBMI(weight, height);
+
+    document.getElementById('result').innerHTML = `
+        <h3>ผลลัพธ์ (ทั้งหมด):</h3>
+        <p><strong>คำทักทาย:</strong> ${greeting}</p>
+        <p><strong>คะแนน ${score} ได้เกรด:</strong> <span class="${gradeObj.className}">${gradeObj.grade}</span></p>
+        <h4>ค่าใช้จ่ายประมาณ:</h4>
+        <ul>
+            <li>รายเดือน: ${expenses.monthly.toLocaleString()} บาท</li>
+            <li>รายปี: ${expenses.yearly.toLocaleString()} บาท</li>
+            <li>ค่าเทอม: ${expenses.breakdown.tuition.toLocaleString()} บาท</li>
+            <li>ค่าหอพัก: ${expenses.breakdown.dorm.toLocaleString()} บาท</li>
+            <li>ค่าอาหาร: ${expenses.breakdown.food.toLocaleString()} บาท</li>
+            <li>ค่าเดินทาง: ${expenses.breakdown.transport.toLocaleString()} บาท</li>
+            <li>ค่า Deductlatefee: ${expenses.breakdown.Deductlatefee.toLocaleString()} บาท</li>
+            <li>ค่าหวย: ${expenses.breakdown.lottery.toLocaleString()} บาท</li>
+        </ul>
+        <h4>BMI ของคุณ:</h4>
+        <p><strong>${bmi.value}</strong> (${bmi.category})</p>
+        <div class="bmi-bar">
+            <div class="bmi-fill ${bmi.className}" style="width:${Math.min(bmi.value*2,100)}%">${bmi.value}</div>
+        </div>
+    `;
+}
+
+function showBMI() {
+    let weight = parseFloat(document.getElementById('weight').value);
+    let height = parseFloat(document.getElementById('height').value);
+    let bmi = calculateBMI(weight, height);
+
+    document.getElementById('bmiResult').innerHTML = `
+        <h3>ผลลัพธ์ BMI:</h3>
+        <p><strong>${bmi.value}</strong> (${bmi.category})</p>
+        <div class="bmi-bar">
+            <div class="bmi-fill ${bmi.className}" style="width:${Math.min(bmi.value*2,100)}%">${bmi.value}</div>
+        </div>
+    `;
+}
+</script>
+</body>
+</html>
+สิ่งที่ต้องทำ:
+
+รันโค้ดและทดสอบ input ต่างๆ
+ลองเปลี่ยนคะแนนและดูผลลัพธ์
+สร้าง Function ใหม่สำหรับคำนวณ BMI
+ลองสร้าง Function ที่รับ parameter หลายตัว

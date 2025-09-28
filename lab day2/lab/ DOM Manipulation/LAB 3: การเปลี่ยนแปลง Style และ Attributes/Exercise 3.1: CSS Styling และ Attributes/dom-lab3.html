@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive LAB: Attributes & Classes</title>
+<style>
+body { font-family: Arial, sans-serif; padding: 20px; background:#f9f9f9; }
+h1 { text-align:center; color:#333; }
+
+.demo-section { padding:20px; margin:15px 0; border-radius:12px; background:white; box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+
+.style-demo { padding:20px; text-align:center; border-radius:12px; transition:0.3s all; background:#e0e0e0; margin-bottom:10px; }
+
+.demo-btn { background:linear-gradient(45deg,#FF6B6B,#FF9800); color:white; padding:10px 20px; border:none; border-radius:25px; margin:5px; cursor:pointer; transition:0.3s all;}
+.demo-btn:hover { transform:scale(1.1); box-shadow:0 6px 12px rgba(0,0,0,0.2); }
+
+input, select, label { padding:5px; margin:5px; }
+.slider { width:100%; }
+</style>
+</head>
+<body>
+<h1>🎯 LAB Interactive: Attributes & Classes</h1>
+
+<!-- Section 1: Attributes -->
+<div class="demo-section">
+<h3>🏷️ Attributes ของ Elements</h3>
+
+<img id="demo-img" src="https://via.placeholder.com/200x150/cccccc/ffffff?text=Demo" alt="Demo Image" style="display:block; margin:10px auto; border:2px solid #ccc; border-radius:12px;">
+
+<div style="text-align:center;">
+<button class="demo-btn" onclick="changeImageSrc()">เปลี่ยนรูป</button>
+<button class="demo-btn" onclick="toggleImageBorder()">Toggle ขอบ</button>
+<button class="demo-btn" onclick="resizeImage()">เปลี่ยนขนาด</button>
+</div>
+
+<input id="demo-input" type="text" placeholder="กรอกชื่อ" style="width:200px;"><br>
+<button class="demo-btn" onclick="disableInput()">Disable</button>
+<button class="demo-btn" onclick="enableInput()">Enable</button>
+<button class="demo-btn" onclick="changeInputType()">เปลี่ยน Type</button>
+<button class="demo-btn" onclick="addInputValidation()">เพิ่ม Validation</button>
+
+<div style="margin-top:10px;">
+<label>Background Image Color: <input type="color" id="imgColor" value="#cccccc"></label>
+<label>Width: <input type="range" id="imgWidth" min="100" max="400" value="200" class="slider"></label>
+</div>
+
+<div id="attribute-info" style="background:#f0f0f0; padding:10px; border-radius:8px; margin-top:10px;">
+ข้อมูล Attributes จะแสดงที่นี่
+</div>
+</div>
+
+<!-- Section 2: CSS Classes -->
+<div class="demo-section">
+<h3>📚 CSS Classes Methods</h3>
+<div id="class-box" class="style-demo">
+<p>กล่องนี้จะเปลี่ยน class และ style ตามปุ่ม/slider</p>
+</div>
+
+<div style="text-align:center;">
+<button class="demo-btn" onclick="addClass()">เพิ่ม Class</button>
+<button class="demo-btn" onclick="removeClass()">ลบ Class</button>
+<button class="demo-btn" onclick="toggleClass()">Toggle Class</button>
+<button class="demo-btn" onclick="replaceClass()">Replace Class</button>
+<button class="demo-btn" onclick="showClasses()">แสดง Classes</button>
+</div>
+
+<div style="margin-top:10px;">
+<label>Background Color: <input type="color" id="boxBg" value="#e0e0e0"></label>
+<label>Text Color: <input type="color" id="boxColor" value="#000000"></label>
+<label>Font Size: <input type="range" id="boxSize" min="12" max="48" value="16" class="slider"></label>
+</div>
+
+<div id="class-info" style="background:#f0f0f0; padding:10px; border-radius:8px; margin-top:10px;">
+ข้อมูล Classes จะแสดงที่นี่
+</div>
+</div>
+
+<script>
+// --- Attributes Section ---
+const img = document.getElementById('demo-img');
+const input = document.getElementById('demo-input');
+const attrInfo = document.getElementById('attribute-info');
+
+// Image functions
+function changeImageSrc() {
+    let colors=['ff6b6b','4ecdc4','45b7d1','96ceb4','ffeaa7'];
+    let c = colors[Math.floor(Math.random()*colors.length)];
+    img.src = `https://via.placeholder.com/200x150/${c}/ffffff?text=New`;
+    img.alt = 'New Image '+c;
+    showImageInfo();
+}
+
+function toggleImageBorder() {
+    if(img.style.border=='2px solid rgb(204, 204, 204)' || img.style.border==''){
+        img.style.border='5px solid #FF6B6B';
+        img.style.borderRadius='15px';
+    } else {
+        img.style.border='2px solid #ccc';
+        img.style.borderRadius='12px';
+    }
+}
+
+function resizeImage() {
+    let sizes=['150px','200px','250px','300px'];
+    let s = sizes[Math.floor(Math.random()*sizes.length)];
+    img.style.width = s;
+}
+
+// Input functions
+function disableInput(){ input.setAttribute('disabled','true'); input.style.background='#e0e0e0'; }
+function enableInput(){ input.removeAttribute('disabled'); input.style.background='white'; }
+function changeInputType(){ let types=['text','password','email','number','tel']; let i=types.indexOf(input.type); input.type=types[(i+1)%types.length]; input.placeholder='ทดสอบ '+input.type; }
+function addInputValidation(){ input.setAttribute('required','true'); input.setAttribute('pattern','[a-zA-Zก-๙\\s]+'); input.setAttribute('title','กรุณาใส่ชื่อ'); }
+
+function showImageInfo(){
+    attrInfo.innerHTML = `<strong>Image Attributes:</strong><br>
+        src: ${img.src}<br>
+        alt: ${img.alt}<br>
+        width: ${img.width}px`;
+}
+
+// Real-time sliders
+document.getElementById('imgColor').addEventListener('input', e => img.style.background=e.target.value);
+document.getElementById('imgWidth').addEventListener('input', e => img.style.width=e.target.value+'px');
+
+// --- CSS Classes Section ---
+const box = document.getElementById('class-box');
+const classInfo = document.getElementById('class-info');
+
+// Create classes
+let style = document.createElement('style');
+style.textContent = `
+.highlight { background: yellow; color:red !important; font-weight:bold; }
+.shadow { box-shadow:0 8px 16px rgba(0,0,0,0.5) !important; }
+.rounded { border-radius:25px !important; }
+.large { font-size:2em !important; }
+.gradient { background:linear-gradient(45deg,#667eea,#764ba2) !important; color:white !important; }
+`;
+document.head.appendChild(style);
+
+function addClass(){ let classes=['highlight','shadow','rounded','large']; box.classList.add(classes[Math.floor(Math.random()*classes.length)]); }
+function removeClass(){ let cls=Array.from(box.classList); if(cls.length>0) box.classList.remove(cls[Math.floor(Math.random()*cls.length)]); }
+function toggleClass(){ box.classList.toggle('gradient'); }
+function replaceClass(){
+    if(box.classList.contains('highlight')) box.classList.replace('highlight','shadow');
+    else if(box.classList.contains('shadow')) box.classList.replace('shadow','rounded');
+    else box.classList.add('highlight');
+}
+function showClasses(){ classInfo.innerHTML = `<strong>CSS Classes:</strong> ${box.classList.toString() || 'ไม่มี class'}`; }
+
+// Real-time sliders/color pickers
+document.getElementById('boxBg').addEventListener('input', e=>box.style.background=e.target.value);
+document.getElementById('boxColor').addEventListener('input', e=>box.style.color=e.target.value);
+document.getElementById('boxSize').addEventListener('input', e=>box.style.fontSize=e.target.value+'px');
+
+// Initialize
+showImageInfo();
+showClasses();
+</script>
+</body>
+</html>

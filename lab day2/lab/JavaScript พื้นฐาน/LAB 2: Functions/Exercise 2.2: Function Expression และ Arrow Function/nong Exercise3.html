@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 4: Function Types - Extended</title>
+</head>
+<body>
+    <h1>Function Expression & Arrow Function (Extended)</h1>
+    
+    <div>
+        <input type="number" id="num1" placeholder="เลขที่ 1" value="10">
+        <input type="number" id="num2" placeholder="เลขที่ 2" value="5">
+        <button onclick="calculateAll()">คำนวณทั้งหมด</button>
+    </div>
+    
+    <div id="mathResult"></div>
+
+    <script>
+        // 1. Function Declaration
+        function add(a, b) { return a + b; }
+
+        // 2. Function Expression
+        const subtract = function(a, b) { return a - b; };
+
+        // 3. Arrow Function
+        const multiply = (a, b) => { return a * b; };
+
+        // 4. Arrow Function แบบสั้น
+        const divide = (a, b) => a / b;
+
+        // 5. Arrow Function ไม่มี parameter
+        const getRandomNumber = () => Math.floor(Math.random() * 100) + 1;
+
+        // 6. Arrow Function parameter เดียว
+        const square = x => x * x;
+
+        // Arrow Function ของตัวเอง
+        const average = (a, b) => (a + b) / 2;
+        const cube = x => x * x * x;
+        const percentage = (part, total) => (part / total) * 100;
+
+        // Array ของ Functions สำหรับคำนวณปกติ
+        const mathOperations = [
+            { name: "บวก", func: add, symbol: "+" },
+            { name: "ลบ", func: subtract, symbol: "-" },
+            { name: "คูณ", func: multiply, symbol: "×" },
+            { name: "หาร", func: divide, symbol: "÷" }
+        ];
+
+        function calculateAll() {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            
+            let result = "<h3>ผลการคำนวณ:</h3>";
+
+            // ใช้ forEach loop กับ Array ของ Functions
+            mathOperations.forEach(operation => {
+                const answer = operation.func(num1, num2);
+                result += `<p>${num1} ${operation.symbol} ${num2} = ${answer}</p>`;
+            });
+
+            // การคำนวณพิเศษ
+            result += `<h4>การคำนวณพิเศษ:</h4>`;
+            result += `<p>กำลังสองของ ${num1} = ${square(num1)}</p>`;
+            result += `<p>กำลังสองของ ${num2} = ${square(num2)}</p>`;
+            result += `<p>กำลังสามของ ${num1} = ${cube(num1)}</p>`;
+            result += `<p>กำลังสามของ ${num2} = ${cube(num2)}</p>`;
+            result += `<p>ค่าเฉลี่ยของ ${num1} และ ${num2} = ${average(num1, num2)}</p>`;
+            result += `<p>เปอร์เซ็นต์ของ ${num1} ต่อ ${num2} = ${percentage(num1,num2).toFixed(2)}%</p>`;
+            result += `<p>เลขสุ่ม = ${getRandomNumber()}</p>`;
+
+            document.getElementById('mathResult').innerHTML = result;
+
+            // แสดงใน Console
+            console.log("=== Calculator Results ===");
+            console.log(`${num1} + ${num2} =`, add(num1, num2));
+            console.log(`${num1} - ${num2} =`, subtract(num1, num2));
+            console.log(`${num1} × ${num2} =`, multiply(num1, num2));
+            console.log(`${num1} ÷ ${num2} =`, divide(num1, num2));
+            console.log(`กำลังสองของ ${num1} =`, square(num1));
+            console.log(`กำลังสองของ ${num2} =`, square(num2));
+            console.log(`กำลังสามของ ${num1} =`, cube(num1));
+            console.log(`กำลังสามของ ${num2} =`, cube(num2));
+            console.log(`ค่าเฉลี่ย =`, average(num1, num2));
+            console.log(`เปอร์เซ็นต์ =`, percentage(num1,num2).toFixed(2) + "%");
+            console.log(`เลขสุ่ม =`, getRandomNumber());
+        }
+
+        // ทดสอบ Functions
+        console.log("=== Function Types Demo ===");
+        console.log("Function Declaration:", add(5, 3));
+        console.log("Function Expression:", subtract(5, 3));
+        console.log("Arrow Function:", multiply(5, 3));
+        console.log("Arrow Function (short):", divide(5, 3));
+        console.log("Random Number:", getRandomNumber());
+        console.log("Square of 7:", square(7));
+        console.log("Cube of 3:", cube(3));
+        console.log("Average of 4 & 8:", average(4, 8));
+        console.log("Percentage 25 of 50:", percentage(25,50).toFixed(2) + "%");
+    </script>
+</body>
+</html>

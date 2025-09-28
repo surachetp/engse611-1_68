@@ -1,0 +1,77 @@
+<!DOCTYPE html> 
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 2: Data Types</title>
+</head>
+<body>
+    <h1>JavaScript Data Types</h1>
+    <div id="output"></div>
+
+    <script>
+        // ตัวอย่าง Data Types ต่างๆ
+        let text = "สวัสดีครับ นี่คือข้อมูลของฉัน";
+        let number = 36; // อายุ
+        let decimal = 175.5; // สมมติเป็นส่วนสูง
+        let isActive = true;
+        let emptyValue = null;
+        let notDefined;
+
+        // เก็บข้อมูลส่วนตัว
+        let studentData = {
+            name: "สุรเช็ษฐ์ เป็งคำ",
+            age: 36,
+            phone: "083578647",
+            address: "393 หมู่ 3 โครงการทรัพย์มาลี ต.ต้นธง อ.เมือง จ.ลำพูน 51000",
+            major: "เทคโนโลยีสารสนเทศ"
+        };
+
+        let subjects = ["JavaScript", "HTML", "CSS"];
+
+        // ตรวจสอบ Data Type ด้วย typeof
+        console.log("=== Data Types ===");
+        console.log("typeof text:", typeof text);
+        console.log("typeof number:", typeof number);
+        console.log("typeof decimal:", typeof decimal);
+        console.log("typeof isActive:", typeof isActive);
+        console.log("typeof emptyValue:", typeof emptyValue);
+        console.log("typeof notDefined:", typeof notDefined);
+        console.log("typeof studentData:", typeof studentData);
+        console.log("typeof subjects:", typeof subjects);
+
+        // แสดงผลบนหน้าเว็บ
+        let output = document.getElementById('output');
+        output.innerHTML = `
+            <h3>ผลลัพธ์:</h3>
+            <p><strong>ข้อความ:</strong> ${text} (${typeof text})</p>
+            <p><strong>อายุ:</strong> ${number} (${typeof number})</p>
+            <p><strong>ส่วนสูง (ทศนิยม):</strong> ${decimal} (${typeof decimal})</p>
+            <p><strong>Boolean:</strong> ${isActive} (${typeof isActive})</p>
+            <p><strong>ข้อมูลส่วนตัว:</strong></p>
+            <ul>
+                <li>ชื่อ: ${studentData.name}</li>
+                <li>อายุ: ${studentData.age}</li>
+                <li>เบอร์โทร: ${studentData.phone}</li>
+                <li>ที่อยู่: ${studentData.address}</li>
+                <li>สาขา: ${studentData.major}</li>
+            </ul>
+            <p><strong>วิชาที่สนใจ:</strong> ${JSON.stringify(subjects)} (${typeof subjects})</p>
+        `;
+
+        // ✨ พิเศษ: typeof null เป็น "object"
+        console.log("⚠️ JavaScript Bug: typeof null =", typeof null);
+    </script>
+</body>
+</html>
+
+สิ่งที่ต้องทำ:
+
+รันโค้ดและดูผลลัพธ์
+ลองสร้างตัวแปรใหม่ด้วย Data Types ต่างๆ
+ใช้ typeof ตรวจสอบ Data Type
+สังเกตว่า typeof null ได้ผลลัพธ์เป็น "object" (นี่คือ bug ของ JavaScript!)
+💡 เคล็ดลับ:
+
+JSON.stringify() ใช้แปลง Object/Array เป็น String เพื่อแสดงผล
+Array ใน JavaScript เป็น Object ชนิดพิเศษ
