@@ -1,0 +1,5 @@
+[
+    { "id": 1, "name": "Manchester United", "major": "วิศวกรรม", "year": 3 },
+    { "id": 2, "name": "Arsenal", "major": "วิทยาการคอมพิวเตอร์", "year": 3 },
+    { "id": 3, "name": "Liverpool", "major": "วิศวกรรม", "year": 3 }
+]

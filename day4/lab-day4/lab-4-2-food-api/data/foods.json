@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "name": "ต้มยำกุ้ง",
+    "description": "ซุปกุ้งรสเผ็ดเปรี้ยวร้อนแรง",
+    "category": "ซุป",
+    "spicyLevel": 5,
+    "vegetarian": false,
+    "available": true,
+    "price": 120
+  },
+  {
+    "id": 2,
+    "name": "ผัดผักรวมมิตร",
+    "description": "ผักสดผัดน้ำมันหอย",
+    "category": "ผัด",
+    "spicyLevel": 1,
+    "vegetarian": true,
+    "available": true,
+    "price": 80
+  },
+  {
+    "id": 3,
+    "name": "ส้มตำไทย",
+    "description": "สลัดมะละกอสไตล์ไทย รสเผ็ดเปรี้ยว",
+    "category": "สลัด",
+    "spicyLevel": 3,
+    "vegetarian": true,
+    "available": false,
+    "price": 60
+  },
+  {
+    "id": 4,
+    "name": "แกงเขียวหวานไก่",
+    "description": "แกงกะทิไก่รสเผ็ดหอมสมุนไพร",
+    "category": "แกง",
+    "spicyLevel": 4,
+    "vegetarian": false,
+    "available": true,
+    "price": 150
+  },
+  {
+    "id": 5,
+    "name": "ผัดไทยกุ้งสด",
+    "description": "เส้นผัดไทยกับกุ้งสดและถั่วลิสง",
+    "category": "ผัด",
+    "spicyLevel": 2,
+    "vegetarian": false,
+    "available": true,
+    "price": 100
+  },
+  {
+    "id": 6,
+    "name": "ข้าวผัดผักรวม",
+    "description": "ข้าวผัดผักสด รสชาติกลมกล่อม",
+    "category": "ข้าว",
+    "spicyLevel": 1,
+    "vegetarian": true,
+    "available": true,
+    "price": 70
+  },
+  {
+    "id": 7,
+    "name": "ต้มจืดเต้าหู้หมูสับ",
+    "description": "ซุปใสเต้าหู้หมูสับ รสชาติอ่อนโยน",
+    "category": "ซุป",
+    "spicyLevel": 0,
+    "vegetarian": false,
+    "available": false,
+    "price": 90
+  },
+  {
+    "id": 8,
+    "name": "แกงส้มปลากะพง",
+    "description": "แกงส้มรสเปรี้ยวกับปลาสด",
+    "category": "แกง",
+    "spicyLevel": 3,
+    "vegetarian": false,
+    "available": true,
+    "price": 140
+  }
+]
