@@ -1,81 +1,196 @@
-# Lab 4.1: สร้างเซิร์ฟเวอร์แรกด้วย Node.js
+````markdown
+# Lab 4.1 — สร้างเซิร์ฟเวอร์แรกด้วย Node.js
 
-## คำอธิบาย
-โปรเจคนี้เป็นการสร้าง HTTP server พื้นฐานโดยใช้โมดูล `http` ของ Node.js และเปรียบเทียบกับการใช้ Express.js framework เพื่อสร้างเซิร์ฟเวอร์ที่มีฟังก์ชันเดียวกัน โดยมี endpoint ดังนี้:
-- `GET /`: แสดงข้อความต้อนรับและรายการ endpoint
-- `GET /students`: แสดงรายการนักศึกษาทั้งหมด
-- `GET /students/:id`: แสดงข้อมูลนักศึกษาตาม ID
-- `GET /students/major/:major`: แสดงรายการนักศึกษาตามสาขา
-- `GET /stats` (เฉพาะ Express): แสดงสถิติจำนวนนักศึกษาและจำนวนนักศึกษาในแต่ละสาขา
+สรุปสั้น ๆ:
+โปรเจกต์นี้สาธิตการสร้าง HTTP server แบบดั้งเดิมโดยใช้โมดูล `http` ของ Node.js และการสร้างเซิร์ฟเวอร์เดียวกันโดยใช้ Express.js เพื่อเปรียบเทียบการใช้งาน การจัดการ route และความสะดวกในการพัฒนา
 
-## การติดตั้ง
-1. ติดตั้ง Node.js (แนะนำเวอร์ชัน 18.x หรือสูงกว่า)
-2. Clone โปรเจคนี้:
-   ```bash
-   git clone <repository-url>
-   cd lab-4-1-basic-server
-3.ติดตั้ง dependencies:bash
-	npm install
-วิธีรันเซิร์ฟเวอร์
+---
 
-รัน HTTP Server:
-bashnpm run start:http
-หรือใช้ nodemon เพื่อรันแบบพัฒนา:
-bashnpm run dev:http
-เซิร์ฟเวอร์จะรันที่ http://localhost:3000
-รัน Express Server:
-bashnpm run start:express
-หรือใช้ nodemon:
-bashnpm run dev:express
-เซิร์ฟเวอร์จะรันที่ http://localhost:3001
+## ความสามารถ (Endpoints)
+- GET / — หน้า welcome และรายการ endpoint
+- GET /students — ดึงรายการนักศึกษาทั้งหมด (JSON)
+- GET /students/:id — ดึงข้อมูลนักศึกษาตาม ID
+- GET /students/major/:major — ดึงรายการนักศึกษาตามสาขา
+- GET /stats — (เฉพาะ Express) สถิติ เช่น จำนวนรวมและจำนวนตามสาขา
 
-การทดสอบ
-ทดสอบ endpoint โดยใช้ curl, browser, หรือเครื่องมือเช่น Postman:
+ทุก endpoint ของตัวอย่างจะคืนค่า JSON และมีการจัดการกรณีไม่พบ (404)
 
-HTTP Server:
-bashcurl http://localhost:3000/
+---
+
+## ความต้องการเบื้องต้น
+- Node.js (แนะนำ v18.x ขึ้นไป)
+- Git
+
+## ติดตั้งและรันโปรเจกต์
+1. Clone โปรเจกต์
+
+```bash
+git clone <repository-url>
+cd day4/lab-day4/lab-4-1-basic-server
+```
+
+2. ติดตั้ง dependencies
+
+```bash
+npm install
+```
+
+3. สคริปต์ที่มีให้ (ตัวอย่างใน `package.json`)
+
+```bash
+# รัน HTTP server (port 3000)
+npm run start:http
+
+# รัน HTTP server แบบพัฒนา (nodemon) ถ้ามี
+npm run dev:http
+
+# รัน Express server (port 3001)
+npm run start:express
+
+# รัน Express แบบพัฒนา (nodemon) ถ้ามี
+npm run dev:express
+```
+
+หมายเหตุ: ตรวจสอบว่า port 3000 และ 3001 ว่างก่อนรัน
+
+---
+
+## ตัวอย่างการทดสอบ (curl)
+
+HTTP server (port 3000):
+
+---
+
+# Lab 4.1 — สร้างเซิร์ฟเวอร์แรกด้วย Node.js / Build your first Node.js server
+
+This lab shows two implementations of the same simple API: one using Node's built-in `http` module and one using Express.js. The goal is to compare how routing, JSON responses and error handling differ between the two approaches.
+
+## Features / ความสามารถ
+- GET / — Welcome message and list of endpoints (หน้า welcome และรายการ endpoint)
+- GET /students — Return all students as JSON (แสดงรายการนักศึกษา)
+- GET /students/:id — Return student by ID (แสดงนักศึกษาตาม ID)
+- GET /students/major/:major — Return students filtered by major (แสดงนักศึกษาตามสาขา)
+- GET /stats — (Express only) Basic statistics about students (สถิติ)
+
+All endpoints return JSON and handle 404 (Not Found) where appropriate.
+
+---
+
+## Prerequisites / ความต้องการ
+- Node.js v18+ recommended
+- Git
+
+## Install & Run / ติดตั้งและรัน
+
+1) Clone and change directory / Clone โปรเจกต์
+
+```bash
+git clone <repository-url>
+cd day4/lab-day4/lab-4-1-basic-server
+```
+
+2) Install dependencies / ติดตั้ง
+
+```bash
+npm install
+```
+
+3) Available scripts (see `package.json`) / สคริปต์ที่มีให้
+
+```bash
+# Run the simple HTTP server (port 3000)
+npm run start:http
+
+# Run the HTTP server with nodemon (if configured)
+npm run dev:http
+
+# Run the Express server (port 3001)
+npm run start:express
+
+# Run Express with nodemon (if configured)
+npm run dev:express
+```
+
+Note: Make sure ports 3000 and 3001 are free.
+
+---
+
+## Quick examples / ตัวอย่างการทดสอบ (curl)
+
+HTTP server (port 3000):
+
+```bash
+curl http://localhost:3000/
 curl http://localhost:3000/students
 curl http://localhost:3000/students/1
-curl http://localhost:3000/students/major/วิศวกรรม
+curl "http://localhost:3000/students/major/วิศวกรรม"
+```
 
-Express Server:
-bashcurl http://localhost:3001/
+Express server (port 3001):
+
+```bash
+curl http://localhost:3001/
 curl http://localhost:3001/students
 curl http://localhost:3001/students/1
-curl http://localhost:3001/students/major/วิศวกรรม
+curl "http://localhost:3001/students/major/วิศวกรรม"
 curl http://localhost:3001/stats
+```
 
+---
 
-ไฟล์ในโปรเจค
+## Example responses / ตัวอย่าง response
 
-package.json: กำหนด dependencies และ scripts
-http-server.js: เซิร์ฟเวอร์ที่ใช้โมดูล http
-express-server.js: เซิร์ฟเวอร์ที่ใช้ Express.js
-comparison.md: เปรียบเทียบระหว่าง HTTP Server และ Express Server
-README.md: คำอธิบายโปรเจคและวิธีใช้งาน
+GET /students — 200 OK
 
-หมายเหตุ
+```json
+{
+  "success": true,
+  "data": [
+    { "id": 1, "name": "สมชาย", "major": "วิศวกรรม" },
+    { "id": 2, "name": "สมหญิง", "major": "คอมพิวเตอร์" }
+  ]
+}
+```
 
-ตรวจสอบให้แน่ใจว่า port 3000 และ 3001 ว่างก่อนรันเซิร์ฟเวอร์
-หากต้องการเพิ่มข้อมูลนักศึกษา สามารถแก้ไข array students ในไฟล์ http-server.js และ express-server.js
+404 Not Found example / ตัวอย่าง 404 (ไม่พบ)
 
-text---
+```json
+{
+  "success": false,
+  "error": "Student not found"
+}
+```
 
-### การทดสอบและเกณฑ์การประเมิน
-1. **ทดสอบการทำงาน**:
-   - รันทั้งสองเซิร์ฟเวอร์และใช้ `curl` หรือ browser เพื่อตรวจสอบว่า endpoint ทั้งหมดทำงานถูกต้อง
-   - ตัวอย่างคำสั่งทดสอบ:
-     ```bash
-     curl http://localhost:3000/students
-     curl http://localhost:3001/students/major/วิศวกรรม
+---
 
-ตรวจสอบว่า response เป็น JSON และมี status code ที่ถูกต้อง (200 สำหรับสำเร็จ, 404 สำหรับไม่พบ)
+## Project files / โครงสร้างไฟล์
 
+```
+project-root/
+├─ http-server.js         # minimal server using Node's http module
+├─ express-server.js      # server using Express framework
+├─ package.json
+├─ comparison.md          # notes comparing http vs express
+└─ README.md
+```
 
-เกณฑ์การประเมิน:
+---
 
-✅ Server ทั้งสองทำงานได้ถูกต้อง: ทั้ง HTTP และ Express server รันได้และตอบสนองทุก endpoint
-✅ Routes ส่ง response ที่ถูกต้อง: ตรวจสอบว่า response ตรงกับข้อมูลใน students และ endpoint /stats ใน Express
-✅ มีการจัดการ 404 error: ส่ง response 404 พร้อมข้อความ error ที่เหมาะสม
-✅ comparison.md มีเนื้อหาที่สมเหตุสมผล: อธิบายข้อดีข้อเสียของ HTTP และ Express ได้ชัดเจน
-✅ README.md อธิบายได้ชัดเจน: มีคำแนะนำการติดตั้ง รัน และทดสอบที่ครบถ้วน
+## Edit sample data / แก้ข้อมูลตัวอย่าง
+To add or change student data, edit the `students` array inside `http-server.js` and `express-server.js`.
+
+---
+
+## Grading checklist / เกณฑ์การประเมิน
+1. Both servers run and respond to listed endpoints (HTTP:3000, Express:3001)
+2. Responses are JSON with appropriate status codes (200, 404)
+3. 404 responses are handled gracefully
+4. `comparison.md` documents differences between the two approaches
+
+---
+
+If you want, I can also:
+
+- add a `requests.http` file for VS Code REST Client with all sample requests
+- generate a Postman collection (exportable JSON)
+- translate this README fully into English or Thai-only version

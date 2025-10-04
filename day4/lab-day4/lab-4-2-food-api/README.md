@@ -29,24 +29,64 @@ Log ทุก request ลง console และไฟล์ logs/request.log
 ข้อมูลที่ log: timestamp, method, URL, IP
 
 🍽️ Endpoints / API
-1. GET /api/foods – ดึงรายการอาหารทั้งหมด
-Query Parameter	Type	Description
-search	string	ค้นหาชื่อหรือคำอธิบาย
-category	string	กรองตามประเภทอาหาร (case-insensitive)
-maxSpicy	number	กรองระดับความเผ็ดสูงสุด
-vegetarian	boolean	true หรือ false
-available	boolean	true หรือ false
-maxPrice	number	กรองราคาสูงสุด
+````markdown
+# 🍽️ Food API (Lab 4.2)
 
-ตัวอย่างการเรียก
+RESTful API สำหรับจัดการข้อมูลเมนูอาหาร — รองรับการดึงรายการทั้งหมด, กรองด้วย query parameters, ดึงรายการสุ่ม, ดูสถิติ และหน้าเอกสาร API
 
-bash
-Copy code
+---
+
+## ความต้องการเบื้องต้น
+- Node.js (แนะนำ v18.x ขึ้นไป)
+- Git
+
+## ติดตั้งและรัน
+
+```bash
+# Clone โปรเจกต์
+git clone <repository-url>
+cd day4/lab-day4/lab-4-2-food-api
+
+# ติดตั้ง dependencies
+npm install
+
+# สร้างโฟลเดอร์สำหรับบันทึก log (หากยังไม่มี)
+mkdir -p logs
+
+# รัน server (ค่าเริ่มต้น: http://localhost:3000)
+npm start
+```
+
+เมื่อรันสำเร็จ server จะฟังที่ http://localhost:3000
+
+---
+
+## Middleware
+มี Logger middleware (`middleware/logger.js`) ที่บันทึกข้อมูลทุก request ลงทั้ง console และไฟล์ `logs/request.log`
+
+ข้อมูลที่บันทึก: timestamp, method, URL, IP
+
+---
+
+## Endpoints
+
+1) GET /api/foods — ดึงรายการอาหารทั้งหมด
+
+Query parameters (ทั้งหมดจะถูก AND กัน):
+- `search` (string) — ค้นหาในชื่อหรือคำอธิบาย
+- `category` (string) — กรองตามประเภทอาหาร (ไม่ sensitive case)
+- `maxSpicy` (number) — ระดับเผ็ดสูงสุด
+- `vegetarian` (boolean) — true/false
+- `available` (boolean) — true/false
+- `maxPrice` (number) — ราคาสูงสุด
+
+ตัวอย่าง:
+```bash
 curl "http://localhost:3000/api/foods?search=spicy&maxSpicy=2&vegetarian=true"
-Response ตัวอย่าง
+```
 
-json
-Copy code
+ตัวอย่าง response:
+```json
 {
   "success": true,
   "data": [
@@ -70,14 +110,16 @@ Copy code
     "maxPrice": null
   }
 }
-2. GET /api/foods/random – ดึงอาหารแบบสุ่ม
-bash
-Copy code
-curl http://localhost:3000/api/foods/random
-Response ตัวอย่าง
+```
 
-json
-Copy code
+2) GET /api/foods/random — ดึงอาหารแบบสุ่ม 1 รายการ
+
+```bash
+curl http://localhost:3000/api/foods/random
+```
+
+ตัวอย่าง response:
+```json
 {
   "success": true,
   "data": {
@@ -90,14 +132,16 @@ Copy code
     "price": 50
   }
 }
-3. GET /api/foods/category/:category – ดึงอาหารตามประเภท
-bash
-Copy code
-curl http://localhost:3000/api/foods/category/Vegetable
-Response ตัวอย่าง
+```
 
-json
-Copy code
+3) GET /api/foods/category/:category — ดึงรายการตามหมวดหมู่
+
+```bash
+curl http://localhost:3000/api/foods/category/Vegetable
+```
+
+ตัวอย่าง response:
+```json
 {
   "success": true,
   "data": [
@@ -114,14 +158,16 @@ Copy code
   "total": 1,
   "category": "vegetable"
 }
-4. GET /api/foods/:id – ดึงอาหารตาม ID
-bash
-Copy code
-curl http://localhost:3000/api/foods/1
-Response ตัวอย่าง
+```
 
-json
-Copy code
+4) GET /api/foods/:id — ดึงอาหารตาม ID
+
+```bash
+curl http://localhost:3000/api/foods/1
+```
+
+ตัวอย่าง response:
+```json
 {
   "success": true,
   "data": {
@@ -134,35 +180,22 @@ Copy code
     "price": 120
   }
 }
-5. GET /api/docs – เอกสาร API
-bash
-Copy code
+```
+
+5) GET /api/docs — เอกสาร API (list ของ endpoints)
+
+```bash
 curl http://localhost:3000/api/docs
-Response ตัวอย่าง
+```
 
-json
-Copy code
-{
-  "success": true,
-  "data": {
-    "endpoints": [
-      { "method": "GET", "path": "/api/foods", "description": "ดึงรายการอาหารทั้งหมด พร้อม filter query parameters" },
-      { "method": "GET", "path": "/api/foods/random", "description": "ดึงอาหารแบบสุ่ม 1 จาน" },
-      { "method": "GET", "path": "/api/foods/category/:category", "description": "ดึงอาหารตาม category" },
-      { "method": "GET", "path": "/api/foods/:id", "description": "ดึงอาหารตาม ID" },
-      { "method": "GET", "path": "/api/docs", "description": "แสดงเอกสาร API" },
-      { "method": "GET", "path": "/api/stats", "description": "แสดงสถิติอาหาร" }
-    ]
-  }
-}
-6. GET /api/stats – สถิติอาหาร
-bash
-Copy code
+6) GET /api/stats — สถิติข้อมูลเมนูอาหาร
+
+```bash
 curl http://localhost:3000/api/stats
-Response ตัวอย่าง
+```
 
-json
-Copy code
+ตัวอย่าง response:
+```json
 {
   "success": true,
   "data": {
@@ -172,24 +205,19 @@ Copy code
     "available": 18
   }
 }
-⚡ Notes
-ลำดับ route สำคัญ
+```
 
-/random และ /category/:category ต้องวางก่อน /:id เพื่อป้องกัน route ชนกัน
+---
 
-Filtering /api/foods
+## หมายเหตุสำคัญ
+- ลำดับการประกาศ route สำคัญ: วาง `/random` และ `/category/:category` ก่อน `/:id` เพื่อป้องกันการชนกันของ route
+- การกรอง (filter) ใน `/api/foods` จะรวมเงื่อนไขทั้งหมดด้วย AND
 
-ทุก parameter จะ AND กันทั้งหมด
+---
 
-Logger Middleware
+## โครงสร้างไฟล์ตัวอย่าง
 
-บันทึกทุก request ลง console และไฟล์ logs/request.log
-
-ข้อมูล: timestamp, method, URL, IP
-
-📂 โครงสร้างไฟล์
-pgsql
-Copy code
+```
 project-folder/
 ├─ routes/
 │  ├─ foods.js
@@ -202,3 +230,16 @@ project-folder/
 │  └─ request.log
 ├─ app.js
 └─ package.json
+```
+
+---
+
+## ข้อแนะนำเพิ่มเติม
+- เพิ่มตัวอย่าง `requests.http` หรือ Postman collection ถ้าต้องการชุดทดสอบสำเร็จรูป
+- ระบุ dependencies สำคัญใน `package.json` (เช่น express) ถ้ายังไม่มี ให้เพิ่ม
+
+---
+
+หากต้องการ ผมสามารถสร้างไฟล์ `requests.http` หรือ Postman collection ให้เรียบร้อยเพื่อให้คุณทดสอบ endpoints ได้ทันที — บอกผมว่าต้องการแบบไหน (VS Code REST Client หรือ Postman) แล้วผมจะเพิ่มไฟล์ให้
+
+````
