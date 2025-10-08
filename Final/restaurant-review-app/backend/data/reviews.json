@@ -1,0 +1,22 @@
+[
+  { "id": 1, "restaurantId": 1, "author": "Aom", "rating": 5, "comment": "Fantastic flavors!" },
+  { "id": 2, "restaurantId": 1, "author": "Bee", "rating": 4, "comment": "Great spice level." },
+  { "id": 3, "restaurantId": 2, "author": "Ken", "rating": 5, "comment": "Best sushi in town." },
+  { "id": 4, "restaurantId": 3, "author": "Luca", "rating": 4, "comment": "Lovely handmade pasta." },
+  { "id": 5, "restaurantId": 4, "author": "Priya", "rating": 5, "comment": "Authentic and comforting." },
+  { "id": 6, "restaurantId": 5, "author": "Marie", "rating": 4, "comment": "Charming bistro." },
+  { "id": 7, "restaurantId": 6, "author": "Nong", "rating": 5, "comment": "Fresh and tasty vegan options." },
+  { "id": 8, "restaurantId": 7, "author": "Sam", "rating": 3, "comment": "Good BBQ but long wait." },
+  { "id": 9, "restaurantId": 8, "author": "Carlos", "rating": 4, "comment": "Great tapas sharing plates." },
+  { "id": 10, "restaurantId": 9, "author": "Ling", "rating": 5, "comment": "Delicious dim sum." },
+  { "id": 11, "restaurantId": 10, "author": "Anna", "rating": 4, "comment": "Lovely coffee and cakes." },
+  { "id": 12, "restaurantId": 2, "author": "Yuki", "rating": 5, "comment": "Fresh fish and friendly staff." },
+  { "id": 13, "restaurantId": 3, "author": "Marco", "rating": 3, "comment": "Pasta was al dente but sauce a bit sweet." },
+  { "id": 14, "restaurantId": 1, "author": "Jo", "rating": 4, "comment": "Good value." },
+  { "id": 15, "restaurantId": 6, "author": "Mai", "rating": 5, "comment": "Healthy and filling." },
+  { "id": 16, "restaurantId": 4, "author": "Asha", "rating": 4, "comment": "Nice spice and aroma." },
+  { "id": 17, "restaurantId": 5, "author": "Pierre", "rating": 5, "comment": "Classic French experience." },
+  { "id": 18, "restaurantId": 8, "author": "Sofia", "rating": 4, "comment": "Lively atmosphere." },
+  { "id": 19, "restaurantId": 9, "author": "Wang", "rating": 5, "comment": "Authentic taste." },
+  { "id": 20, "restaurantId": 7, "author": "Lee", "rating": 4, "comment": "Tasty sides." }
+]
