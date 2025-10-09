@@ -14,7 +14,7 @@ function SearchBar({ onSearch }) {
       if (searchTerm !== undefined) {
         onSearch(searchTerm);
       }
-    }, 50000);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [searchTerm, onSearch]);
