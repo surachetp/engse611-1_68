@@ -10,42 +10,44 @@
 - Database: JSON File Storage 
 
 ## โครงสร้างไฟล์สำคัญ
+```text
 restaurant-review-app/
 ├── backend/
 │   ├── data/
 │   │   ├── restaurants.json      # ข้อมูลร้านอาหาร
-│   │   └── reviews.json          # ข้อมูลรีวิว
+│   │   └── reviews.json          # ข้อมูลรีวิว (ว่างเพื่อเก็บรีวิวที่เพิ่ม)
 │   ├── routes/
-│   │   ├── restaurants.js        # API endpoints สำหรับร้านอาหาร
-│   │   └── reviews.js            # API endpoints สำหรับรีวิว
+│   │   ├── restaurants.js        # API endpoints สำหรับร้านอาหาร (โครงสร้าง 40%)
+│   │   └── reviews.js            # API endpoints สำหรับรีวิว (โครงสร้าง 30%)
 │   ├── middleware/
-│   │   └── validation.js         # Middleware ตรวจสอบข้อมูล
+│   │   └── validation.js         # Middleware ตรวจสอบข้อมูล (ตัวอย่าง 1 ฟังก์ชัน)
 │   ├── utils/
-│   │   └── fileManager.js        # ฟังก์ชันจัดการไฟล์ JSON
-│   ├── server.js                 # Main server file
-│   ├── package.json              # Dependencies และ scripts
-│   ├── .env.example              # ตัวอย่างไฟล์ environment
-│   └── .gitignore                # ไฟล์ที่ไม่ต้องการ commit
+│   │   └── fileManager.js        # ฟังก์ชันจัดการไฟล์ JSON (100%)
+│   ├── server.js                 # Main server file (โครงสร้าง 60%)
+│   ├── package.json              # Dependencies และ scripts (100%)
+│   ├── .env.example              # ตัวอย่างไฟล์ environment (100%)
+│   └── .gitignore                # ไฟล์ที่ไม่ต้องการ commit (100%)
 │
 └── frontend/
     ├── src/
     │   ├── components/
-    │   │   ├── RestaurantList.jsx   # แสดงรายการร้านอาหาร
-    │   │   ├── RestaurantCard.jsx   # การ์ดร้านอาหาร
-    │   │   ├── RestaurantDetail.jsx # รายละเอียดร้านอาหาร
-    │   │   ├── SearchBar.jsx        # แถบค้นหา
-    │   │   ├── FilterPanel.jsx      # แผงกรองข้อมูล
-    │   │   ├── ReviewForm.jsx       # ฟอร์มเขียนรีวิว
-    │   │   └── ReviewList.jsx       # แสดงรายการรีวิว
+    │   │   ├── RestaurantList.jsx   # แสดงรายการร้าน (100%)
+    │   │   ├── RestaurantCard.jsx   # การ์ดร้าน (100%)
+    │   │   ├── RestaurantDetail.jsx # รายละเอียดร้าน (โครงสร้าง 30%)
+    │   │   ├── SearchBar.jsx        # แถบค้นหา (100%)
+    │   │   ├── FilterPanel.jsx      # แผงกรอง (โครงสร้าง 40%)
+    │   │   ├── ReviewForm.jsx       # ฟอร์มรีวิว (โครงสร้าง 40%)
+    │   │   └── ReviewList.jsx       # แสดงรีวิว (100%)
     │   ├── services/
-    │   │   └── api.js               # ฟังก์ชันเรียก API
-    │   ├── App.jsx                  # Main App component
-    │   ├── App.css                  # Styling หลัก
-    │   └── main.jsx                 # Entry point
-    ├── index.html                   # HTML template
-    ├── package.json                 # Dependencies และ scripts
-    ├── vite.config.js               # Vite configuration
-    └── .gitignore                   # ไฟล์ที่ไม่ต้องการ commit
+    │   │   └── api.js               # ฟังก์ชันเรียก API (โครงสร้าง 30%)
+    │   ├── App.jsx                  # Main App component (โครงสร้าง 60%)
+    │   ├── App.css                  # Styling หลัก (100%)
+    │   └── main.jsx                 # Entry point (100%)
+    ├── index.html                   # HTML template (100%)
+    ├── package.json                 # Dependencies และ scripts (100%)
+    ├── vite.config.js               # Vite configuration (100%)
+    └── .gitignore                   # ไฟล์ที่ไม่ต้องการ commit (100%)
+```
 
 ## Features ที่ทำได้
 ### Required Features
