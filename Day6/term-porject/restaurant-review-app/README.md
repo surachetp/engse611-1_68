@@ -9,19 +9,42 @@
 - Database: JSON File Storage 
 
 ## โครงสร้างไฟล์สำคัญ
-- `backend/`
-  - `server.js` — ตั้งค่า Express app, routes และ endpoint `/api/stats`
-  - `routes/restaurants.js` — GET `/api/restaurants`, GET `/api/restaurants/:id`
-  - `routes/reviews.js` — GET `/api/reviews/:restaurantId`, POST `/api/reviews`
-  - `middleware/validation.js` — validate รีวิวก่อนบันทึก (ป้องกัน input ที่เป็นอันตราย)
-  - `utils/fileManager.js` — ฟังก์ชันอ่าน/เขียน JSON files
-  - `data/restaurants.json` — ข้อมูลร้าน
-  - `data/reviews.json` — ข้อมูลรีวิว
-
-- `frontend/`
-  - `src/App.jsx` — entry ของ React app, จัดการ theme และ routing แบบง่าย (list <-> detail)
-  - `src/services/api.js` — wrapper สำหรับเรียก REST API (getRestaurants, getRestaurantById, addReview)
-  - `src/components/` — `RestaurantList`, `RestaurantCard`, `RestaurantDetail`, `ReviewForm`, `ReviewList`, `SearchBar`, `FilterPanel`
+restaurant-review-app/
+├── backend/
+│   ├── data/
+│   │   ├── restaurants.json      # ข้อมูลร้านอาหาร
+│   │   └── reviews.json          # ข้อมูลรีวิว
+│   ├── routes/
+│   │   ├── restaurants.js        # API endpoints สำหรับร้านอาหาร
+│   │   └── reviews.js            # API endpoints สำหรับรีวิว
+│   ├── middleware/
+│   │   └── validation.js         # Middleware ตรวจสอบข้อมูล
+│   ├── utils/
+│   │   └── fileManager.js        # ฟังก์ชันจัดการไฟล์ JSON
+│   ├── server.js                 # Main server file
+│   ├── package.json              # Dependencies และ scripts
+│   ├── .env.example              # ตัวอย่างไฟล์ environment
+│   └── .gitignore                # ไฟล์ที่ไม่ต้องการ commit
+│
+└── frontend/
+    ├── src/
+    │   ├── components/
+    │   │   ├── RestaurantList.jsx   # แสดงรายการร้านอาหาร
+    │   │   ├── RestaurantCard.jsx   # การ์ดร้านอาหาร
+    │   │   ├── RestaurantDetail.jsx # รายละเอียดร้านอาหาร
+    │   │   ├── SearchBar.jsx        # แถบค้นหา
+    │   │   ├── FilterPanel.jsx      # แผงกรองข้อมูล
+    │   │   ├── ReviewForm.jsx       # ฟอร์มเขียนรีวิว
+    │   │   └── ReviewList.jsx       # แสดงรายการรีวิว
+    │   ├── services/
+    │   │   └── api.js               # ฟังก์ชันเรียก API
+    │   ├── App.jsx                  # Main App component
+    │   ├── App.css                  # Styling หลัก
+    │   └── main.jsx                 # Entry point
+    ├── index.html                   # HTML template
+    ├── package.json                 # Dependencies และ scripts
+    ├── vite.config.js               # Vite configuration
+    └── .gitignore                   # ไฟล์ที่ไม่ต้องการ commit
 
 ## Features ที่ทำได้
 ### Required Features
