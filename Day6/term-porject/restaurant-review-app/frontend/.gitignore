@@ -1,6 +1,91 @@
-node_modules/
-dist/
-.env
-.env.local
-*.log
-.DS_Store
+@echo off
+:: ===========================================================
+:: 🔒 Secure Boot GUI Check & Log Script
+:: Author: Noi Nong + GPT-5
+:: Version: 3.0
+:: ===========================================================
+
+:: ตรวจสอบสิทธิ์ Admin
+net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo [⚠️] กรุณารันไฟล์นี้ด้วยสิทธิ์ "Run as Administrator"
+    pause
+    exit /b
+)
+
+:: สร้างไฟล์ PowerShell ชั่วคราว
+set "TempPS=%TEMP%\SecureBoot_GUI.ps1"
+(
+echo Add-Type -AssemblyName System.Windows.Forms
+echo Add-Type -AssemblyName System.Drawing
+echo
+echo # สร้าง Form
+echo $form = New-Object System.Windows.Forms.Form
+echo $form.Text = "🔒 Secure Boot Checker"
+echo $form.Size = New-Object System.Drawing.Size(500,300)
+echo $form.StartPosition = "CenterScreen"
+echo
+echo # แสดงผล Secure Boot
+echo $labelStatus = New-Object System.Windows.Forms.Label
+echo $labelStatus.Location = New-Object System.Drawing.Point(20,20)
+echo $labelStatus.Size = New-Object System.Drawing.Size(450,40)
+echo $labelStatus.Font = New-Object System.Drawing.Font("Segoe UI",14,[System.Drawing.FontStyle]::Bold)
+echo
+echo Try {
+echo     if (Get-Command Confirm-SecureBootUEFI -ErrorAction SilentlyContinue) {
+echo         $sb = Confirm-SecureBootUEFI
+echo     } else {
+echo         $sb = $false
+echo     }
+echo
+echo     if ($sb) {
+echo         $labelStatus.Text = "[✅] Secure Boot ENABLED"
+echo         $labelStatus.ForeColor = [System.Drawing.Color]::Green
+echo     } else {
+echo         $labelStatus.Text = "[❌] Secure Boot DISABLED"
+echo         $labelStatus.ForeColor = [System.Drawing.Color]::Red
+echo     }
+echo
+echo     # แสดงข้อมูล Windows / UEFI
+echo     $labelInfo = New-Object System.Windows.Forms.Label
+echo     $labelInfo.Location = New-Object System.Drawing.Point(20,80)
+echo     $labelInfo.Size = New-Object System.Drawing.Size(450,60)
+echo     $labelInfo.Font = New-Object System.Drawing.Font("Segoe UI",10)
+echo     $biosMode = (Get-WmiObject Win32_ComputerSystem).BootMode
+echo     $osVer = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").ProductName
+echo     $labelInfo.Text = "Windows: $osVer`nBoot Mode: $biosMode"
+echo     $form.Controls.Add($labelInfo)
+echo
+echo     # ปุ่ม Export Log
+echo     $btnLog = New-Object System.Windows.Forms.Button
+echo     $btnLog.Text = "📄 Export Log"
+echo     $btnLog.Location = New-Object System.Drawing.Point(20,160)
+echo     $btnLog.Size = New-Object System.Drawing.Size(120,40)
+echo     $btnLog.Add_Click({
+echo         $folder = (New-Object System.Windows.Forms.FolderBrowserDialog)
+echo         if ($folder.ShowDialog() -eq "OK") {
+echo             $LogPath = Join-Path $folder.SelectedPath "SecureBoot.log"
+echo             $TimeStamp = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
+echo             $Status = if ($sb) {"ENABLED ✅"} else {"DISABLED ❌"}
+echo             "$TimeStamp - Secure Boot Status: $Status" | Out-File -FilePath $LogPath -Append
+echo             [System.Windows.Forms.MessageBox]::Show("Log saved to $LogPath","Info",[System.Windows.Forms.MessageBoxButtons]::OK,[System.Windows.Forms.MessageBoxIcon]::Information)
+echo         }
+echo     })
+echo     $form.Controls.Add($btnLog)
+echo
+echo     $form.Controls.Add($labelStatus)
+echo
+echo } Catch {
+echo     $labelStatus.Text = "[❌] Error: $_"
+echo     $labelStatus.ForeColor = [System.Drawing.Color]::Red
+echo     $form.Controls.Add($labelStatus)
+echo }
+echo
+echo [void]$form.ShowDialog()
+) > "%TempPS%"
+
+:: รัน PowerShell GUI
+PowerShell.exe -NoProfile -ExecutionPolicy Bypass -File "%TempPS%"
+
+:: ลบไฟล์ชั่วคราว
+del "%TempPS%"
