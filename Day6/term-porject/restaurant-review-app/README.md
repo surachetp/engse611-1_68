@@ -63,17 +63,18 @@ npm run dev
 
 ## Screenshots
 ### หน้าแรก
--   Light Mode
-![Home (Light mode)](screenshots/homelight.png)
--   Dark Mode
-![Home (Dark mode)](screenshots/homedark.png)
+- Light Mode  
+![Home (Light mode)](./screenshots/home-light.png)
 
-### รายละเอียดร้าน
-![Detail](screenshots/detail.png)
+- Dark Mode  
+![Home (Dark mode)](./screenshots/home-dark.png)
 
-### ฟอร์มรีวิว
-![Review](screenshots/review-form.png)
+### รายละเอียดร้าน  
+![Detail](./screenshots/detail.png)
 
+### ฟอร์มรีวิว  
+![Review Form 1](./screenshots/review-form-1.png)  
+![Review Form 2](./screenshots/review-form-2.png)
 ## ผู้พัฒนา
 - นาย สรุรเชษฐ์ เป็งคำ
 - รหัสนักศึกษา: 68543210080-6
